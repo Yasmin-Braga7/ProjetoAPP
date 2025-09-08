@@ -1,5 +1,7 @@
 package com.Yasmin.Receitix.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -17,6 +19,26 @@ public class PedidoItem {
     private BigDecimal quantidade;
     @Column(name = "pedido_item_subtotal")
     private BigDecimal subtotal;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
+
+    @ManyToOne
+    @JoinColumn(name = "pedido_id", nullable = false)
+    private Pedido pedido;
+
+    @Transient
+    @JsonProperty("idProduto")
+    public int getIdProduto() {
+        return produto != null ? produto.getId() : null;
+    }
+    @Transient
+    @JsonProperty("idPedido")
+    public int getIdPedido(){
+        return pedido !=null ? pedido.getId(): null;
+    }
 
     public int getId() {
         return id;

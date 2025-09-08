@@ -1,11 +1,14 @@
 package com.Yasmin.Receitix.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "pedido")
@@ -24,6 +27,27 @@ public class Pedido {
     private int status;
     @Column(name = "pedido_criado")
     private LocalDateTime criado;
+
+    @OneToMany(mappedBy = "pedido")
+    private Set<PedidoItem> pedidoItems;
+
+    @Transient
+    @JsonProperty("idUsuario")
+    public int getIdUsuario(){
+        /*
+        if(usuario !=null ){
+            return usuario.getId();
+        }
+        else {
+            return null
+        }*/
+        return usuario!=null ? usuario.getId(): null;
+    }
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
 
     public int getId() {
         return id;

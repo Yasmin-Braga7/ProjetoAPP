@@ -3,10 +3,11 @@ package com.Yasmin.Receitix.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "categoria_produto")
-public class CategoriaProduto {
+public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoria_produto_id")
@@ -17,6 +18,9 @@ public class CategoriaProduto {
     private LocalDateTime data;
     @Column(name = "categoria_produto_status")
     private int status;
+
+    @OneToMany(mappedBy= "categoria")
+    private Set<Produto> produtos;
 
     public int getId() {
         return id;
