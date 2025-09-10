@@ -49,15 +49,15 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.criarPedido(pedido));
     }
 
-    @PutMapping("/atualizar/{pedidoId}")
-    @Operation(summary = "Atualizar todos dados do participante", description = "Endpoint para atualizar o registro de participante")
-    public ResponseEntity<PedidoDTOResponse> atualizarPedido(
-            @PathVariable("participanteId") Integer pedidoId,
-            @RequestBody PedidoDTORequest pedidoDTORequest){
-
-
-        return ResponseEntity.ok(pedidoService.atualizarPedido(pedidoId, pedidoDTORequest));
-    }
+//    @PutMapping("/atualizar/{pedidoId}")
+//    @Operation(summary = "Atualizar todos dados do participante", description = "Endpoint para atualizar o registro de participante")
+//    public ResponseEntity<PedidoDTOResponse> atualizarPedido(
+//            @PathVariable("pedidoId") Integer pedidoId,
+//            @RequestBody PedidoDTORequest pedidoDTORequest){
+//
+//
+//        return ResponseEntity.ok(pedidoService.atualizarPedido(pedidoId, pedidoDTORequest));
+//    }
 
     @PatchMapping("/atualizarStatus/{pedidoId}")
     @Operation(summary = "Atualizar campo status do pedido", description = "Endpoint para atualizar o status do pedido")
