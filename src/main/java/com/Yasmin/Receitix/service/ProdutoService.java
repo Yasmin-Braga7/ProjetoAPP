@@ -1,16 +1,10 @@
 package com.Yasmin.Receitix.service;
 
-import com.Yasmin.Receitix.DTO.request.PedidoDTORequest;
-import com.Yasmin.Receitix.DTO.request.PedidoDTOUpdateRequest;
 import com.Yasmin.Receitix.DTO.request.ProdutoDTORequest;
 import com.Yasmin.Receitix.DTO.request.ProdutoDTOUpdateRequest;
-import com.Yasmin.Receitix.DTO.response.PedidoDTOResponse;
-import com.Yasmin.Receitix.DTO.response.PedidoDTOUpdateResponse;
 import com.Yasmin.Receitix.DTO.response.ProdutoDTOResponse;
 import com.Yasmin.Receitix.DTO.response.ProdutoDTOUpdateResponse;
-import com.Yasmin.Receitix.entity.Pedido;
 import com.Yasmin.Receitix.entity.Produto;
-import com.Yasmin.Receitix.repository.PedidoRepository;
 import com.Yasmin.Receitix.repository.ProdutoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +30,9 @@ public class ProdutoService {
         return this.produtoRepository.obterProdutoPeloId(produtoId);
     }
 
-    public ProdutoDTOResponse criarProduto(ProdutoDTORequest produtoDTOrequest) {
+    public ProdutoDTOResponse criarProduto(ProdutoDTORequest produtoDTORequest) {
 
-        Produto produto = modelMapper.map(produtoDTOrequest, Produto.class);
+        Produto produto = modelMapper.map(produtoDTORequest, Produto.class);
         Produto produtoSave = this.produtoRepository.save(produto);
         ProdutoDTOResponse produtoDTOResponse = modelMapper.map(produtoSave, ProdutoDTOResponse.class);
         return produtoDTOResponse;
@@ -52,7 +46,7 @@ public class ProdutoService {
         if (produto != null){
             //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
             //que é compatível com o repository para atualizar
-            modelMapper.map(produtoDTORequest, produto);
+            modelMapper.map(produtoDTORequest,produto);
 
             //com o objeto no formato correto tipo "participante" o comando "save" salva
             // no banco de dados o objeto atualizado
@@ -84,7 +78,7 @@ public class ProdutoService {
         }
     }
 
-    public void apagarProduto(Integer produtoId){
-        produtoRepository.apagarProduto(produtoId);
+    public void apagarParticipante(Integer participanteId){
+        produtoRepository.apagadoLogicoProduto(participanteId);
     }
 }
