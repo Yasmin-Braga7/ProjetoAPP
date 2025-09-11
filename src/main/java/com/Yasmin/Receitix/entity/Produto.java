@@ -96,5 +96,8 @@ public class Produto {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public void setCategoria(Categoria categoria) {
+    }
 }
 
