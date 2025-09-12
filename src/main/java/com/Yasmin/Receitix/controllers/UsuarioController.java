@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/participante")
-@Tag(name="Participante", description="API para gerenciamento de participantes")
+@RequestMapping("api/usuario")
+@Tag(name="Usuario", description="API para gerenciamento de usuarios")
 public class UsuarioController {
     private UsuarioService usuarioService;
 

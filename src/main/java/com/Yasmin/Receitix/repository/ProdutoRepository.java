@@ -1,7 +1,6 @@
 package com.Yasmin.Receitix.repository;
 
-import com.Yasmin.Receitix.entity.Bloqueio;
-import com.Yasmin.Receitix.entity.Pedido;
+
 import com.Yasmin.Receitix.entity.Produto;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +16,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     @Modifying
     @Transactional
     @Query("UPDATE Produto p SET p.status = -1 WHERE p.id = :id")
-    void apagarProduto(@Param("id") Integer produtoId);
+    void apagadoLogicoProduto(@Param("id") Integer produtoId);
 
     @Query("SELECT p FROM Produto p WHERE p.status >= 0")
     List<Produto> listarProdutos();
