@@ -1,6 +1,5 @@
 package com.Yasmin.Receitix.repository;
 
-import com.Yasmin.Receitix.entity.Bloqueio;
 import com.Yasmin.Receitix.entity.PedidoItem;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,14 +12,16 @@ import java.util.List;
 
 @Repository
 public interface PedidoItemRepository extends JpaRepository<PedidoItem, Integer> {
+
     @Modifying
     @Transactional
-    @Query("UPDATE Participante p SET p.status = -1 WHERE p.id = :id")
+    @Query("UPDATE PedidoItem pi SET pi.subtotal = -1 WHERE pi.id = :id")
     void apagadoLogicoPedidoItem(@Param("id") Integer pedidoItemId);
 
-    @Query("SELECT p FROM Participante p WHERE p.status >= 0")
-    List<PedidoItem> listarPedidosItens();
+    @Query("SELECT pi FROM PedidoItem pi WHERE pi.subtotal >= 0")
+    List<PedidoItem> listarPedidoItens();
 
-    @Query("SELECT p FROM Participante p WHERE p.id=:id AND p.status >= 0")
+    @Query("SELECT pi FROM PedidoItem pi WHERE pi.id=:id AND pi.subtotal >= 0")
     PedidoItem obterPedidoItemPeloId(@Param("id") Integer pedidoItemId);
 }
+

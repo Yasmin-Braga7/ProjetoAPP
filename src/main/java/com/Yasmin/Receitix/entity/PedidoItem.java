@@ -20,8 +20,6 @@ public class PedidoItem {
     @Column(name = "pedido_item_subtotal")
     private BigDecimal subtotal;
 
-    @Column(name = "pedido_item_status")
-    private BigDecimal status;
 
     @JsonIgnore
     @OneToOne
@@ -75,11 +73,6 @@ public class PedidoItem {
         this.subtotal = subtotal;
     }
 
-    public BigDecimal getStatus() {
-        return status;
-    }
 
-    public void setStatus(BigDecimal status) {
-        this.status = status;
-    }
+
 }

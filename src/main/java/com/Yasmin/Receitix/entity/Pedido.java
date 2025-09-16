@@ -96,4 +96,5 @@ public class Pedido {
     public void setCriado(LocalDateTime criado) {
         this.criado = criado;
     }
+
 }
