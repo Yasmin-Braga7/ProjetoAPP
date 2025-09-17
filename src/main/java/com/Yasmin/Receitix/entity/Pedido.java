@@ -34,13 +34,6 @@ public class Pedido {
     @Transient
     @JsonProperty("idUsuario")
     public int getIdUsuario(){
-        /*
-        if(usuario !=null ){
-            return usuario.getId();
-        }
-        else {
-            return null
-        }*/
         return usuario!=null ? usuario.getId(): null;
     }
 
@@ -97,4 +90,19 @@ public class Pedido {
         this.criado = criado;
     }
 
+    public Set<PedidoItem> getPedidoItems() {
+        return pedidoItems;
+    }
+
+    public void setPedidoItems(Set<PedidoItem> pedidoItems) {
+        this.pedidoItems = pedidoItems;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

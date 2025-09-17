@@ -6,17 +6,17 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "categoria_produto")
+@Table(name = "categoria")
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_produto_id")
+    @Column(name = "categoria_id")
     private int id;
-    @Column(name = "categoria_produto_nome")
+    @Column(name = "categoria_nome")
     private String nome;
-    @Column(name = "categoria_produto_criada")
-    private LocalDateTime data;
-    @Column(name = "categoria_produto_status")
+    @Column(name = "categoria_criada")
+    private LocalDateTime criada;
+    @Column(name = "categoria_status")
     private int status;
 
     @OneToMany(mappedBy= "categoria")
@@ -38,12 +38,12 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public LocalDateTime getCriada() {
+        return criada;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setCriada(LocalDateTime criada) {
+        this.criada = criada;
     }
 
     public int getStatus() {
@@ -52,5 +52,13 @@ public class Categoria {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Set<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(Set<Produto> produtos) {
+        this.produtos = produtos;
     }
 }

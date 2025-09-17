@@ -6,6 +6,8 @@ import com.Yasmin.Receitix.DTO.response.PedidoDTOResponse;
 import com.Yasmin.Receitix.DTO.response.PedidoDTOUpdateResponse;
 import com.Yasmin.Receitix.entity.Pedido;
 import com.Yasmin.Receitix.repository.PedidoRepository;
+import com.Yasmin.Receitix.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,14 @@ import java.util.List;
 @Service
 public class PedidoService {
     private final PedidoRepository pedidoRepository;
+
+    private final UsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper modelMapper;
 
-    public PedidoService(PedidoRepository pedidoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, UsuarioRepository usuarioRepository) {
         this.pedidoRepository = pedidoRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     public List<Pedido> listarPedidos(){
@@ -32,10 +37,32 @@ public class PedidoService {
 
     public PedidoDTOResponse criarPedido(PedidoDTORequest pedidoDTOrequest) {
 
-        Pedido pedido = modelMapper.map(pedidoDTOrequest, Pedido.class);
+        Pedido pedido = new Pedido();
+        pedido.setStatus(pedidoDTOrequest.getStatus());
+        pedido.setTaxa(pedidoDTOrequest.getTaxa());
+        pedido.setSubtotal(pedidoDTOrequest.getSubtotal());
+        pedido.setCriado(pedidoDTOrequest.getCriado());
+        pedido.setTotal(pedidoDTOrequest.getTotal());
+        pedido.setUsuario(usuarioRepository.obterUsuarioPeloId(pedidoDTOrequest.getIdUsuario()));
         Pedido pedidoSave = this.pedidoRepository.save(pedido);
         PedidoDTOResponse pedidoDTOResponse = modelMapper.map(pedidoSave, PedidoDTOResponse.class);
         return pedidoDTOResponse;
+    }
+
+    public PedidoDTOResponse atualizarPedido(@Valid Integer idPedido, PedidoDTORequest pedidoDTORequest) {
+        Pedido pedido = this.listarPorPedidoId(idPedido);
+        if (pedido!= null){
+            pedido.setStatus(pedidoDTORequest.getStatus());
+            pedido.setTaxa(pedidoDTORequest.getTaxa());
+            pedido.setTotal(pedidoDTORequest.getTotal());
+            pedido.setSubtotal(pedidoDTORequest.getSubtotal());
+            pedido.setCriado(pedidoDTORequest.getCriado());
+            pedido.setUsuario(usuarioRepository.obterUsuarioPeloId(pedidoDTORequest.getIdUsuario()));
+            Pedido pedidoTemp = this.pedidoRepository.save(pedido);
+            return modelMapper.map(pedidoTemp, PedidoDTOResponse.class);
+        } else {
+            return null;
+        }
     }
 
 //    public PedidoDTOResponse atualizarPedido(Integer pedidoId, PedidoDTORequest pedidoDTORequest) {

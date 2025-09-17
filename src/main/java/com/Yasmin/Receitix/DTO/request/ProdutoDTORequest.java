@@ -18,6 +18,16 @@ public class ProdutoDTORequest {
 
     private int status;
 
+    private int idCategoria;
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
     public String getNome() {
         return nome;
     }

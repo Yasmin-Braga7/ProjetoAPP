@@ -15,6 +15,8 @@ public class PedidoDTORequest {
 
     private int status;
 
+    private int idUsuario;
+
     private LocalDateTime criado;
 
     public BigDecimal getSubtotal() {
@@ -55,5 +57,13 @@ public class PedidoDTORequest {
 
     public void setCriado(LocalDateTime criado) {
         this.criado = criado;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }
