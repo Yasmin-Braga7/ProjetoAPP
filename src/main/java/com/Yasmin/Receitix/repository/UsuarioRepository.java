@@ -14,12 +14,12 @@ import java.util.List;
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Modifying
     @Transactional
-    @Query("UPDATE Usuario p SET p.status = -1 WHERE p.id = :id")
+    @Query("UPDATE Usuario u SET u.status = -1 WHERE u.id = :id")
     void apagadoLogicoUsuario(@Param("id") Integer usuarioId);
 
-    @Query("SELECT p FROM Usuario p WHERE p.status >= 0")
+    @Query("SELECT u FROM Usuario u WHERE u.status >= 0")
     List<Usuario> listarUsuarios();
 
-    @Query("SELECT p FROM Usuario p WHERE p.id=:id AND p.status >= 0")
+    @Query("SELECT u FROM Usuario u WHERE u.id=:id AND u.status >= 0")
     Usuario obterUsuarioPeloId(@Param("id") Integer usuarioId);
 }
