@@ -97,7 +97,20 @@ public class Produto {
         this.status = status;
     }
 
+    public PedidoItem getPedidoItem() {
+        return pedidoItem;
+    }
+
+    public void setPedidoItem(PedidoItem pedidoItem) {
+        this.pedidoItem = pedidoItem;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
     public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
 

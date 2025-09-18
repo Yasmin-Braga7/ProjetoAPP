@@ -52,8 +52,8 @@ public class ProdutoService {
         return produtoDTOResponse;
     }
 
-    public ProdutoDTOResponse atualizarProduto(@Valid Integer idPedido, ProdutoDTORequest produtoDTORequest) {
-        Produto produto = this.listarPorProdutoId(idPedido);
+    public ProdutoDTOResponse atualizarProduto(@Valid Integer idProduto, ProdutoDTORequest produtoDTORequest) {
+        Produto produto = this.listarPorProdutoId(idProduto);
 
         if (produto != null){
             produto.setCriado(produtoDTORequest.getCriado());
