@@ -26,6 +26,7 @@ public class PedidoItem {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;
@@ -73,6 +74,19 @@ public class PedidoItem {
         this.subtotal = subtotal;
     }
 
+    public Produto getProduto() {
+        return produto;
+    }
 
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
 
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 }

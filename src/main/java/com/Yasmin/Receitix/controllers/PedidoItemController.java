@@ -1,9 +1,15 @@
 package com.Yasmin.Receitix.controllers;
 
+import com.Yasmin.Receitix.DTO.request.PedidoDTORequest;
+import com.Yasmin.Receitix.DTO.request.PedidoItemDTORequest;
+import com.Yasmin.Receitix.DTO.response.PedidoDTOResponse;
+import com.Yasmin.Receitix.DTO.response.PedidoItemDTOResponse;
 import com.Yasmin.Receitix.entity.PedidoItem;
 import com.Yasmin.Receitix.service.PedidoItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +41,13 @@ public class PedidoItemController {
         }else{
             return ResponseEntity.ok(pedidoItem);
         }
+    }
+
+    @PostMapping("/criar")
+    @Operation(summary = "Criar novo pedidoItem", description = "Endpoint para criar um novo registro de pedidoItem")
+    public ResponseEntity<PedidoItemDTOResponse> criarPedidoItem(
+            @Valid @RequestBody PedidoItemDTORequest pedidoItem){
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoItemService.criarPedidoItem(pedidoItem));
     }
 
     @DeleteMapping("/apagar/{pedidoItemId}")
