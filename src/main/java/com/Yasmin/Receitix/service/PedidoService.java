@@ -65,27 +65,6 @@ public class PedidoService {
         }
     }
 
-//    public PedidoDTOResponse atualizarPedido(Integer pedidoId, PedidoDTORequest pedidoDTORequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizar
-//        Pedido pedido = this.listarPorPedidoId(pedidoId);
-//
-//        //se encontra o registro a ser atualizado
-//        if (pedido != null){
-//            //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
-//            //que é compatível com o repository para atualizar
-//            modelMapper.map(pedidoDTORequest,pedido);
-//
-//            //com o objeto no formato correto tipo "participante" o comando "save" salva
-//            // no banco de dados o objeto atualizado
-//            Pedido tempResponse = pedidoRepository.save(pedido);
-//
-//            return modelMapper.map(tempResponse, PedidoDTOResponse.class);
-//        }else {
-//            return null;
-//        }
-//
-//    }
-
     public PedidoDTOUpdateResponse atualizarStatusPedido(Integer pedidoId, PedidoDTOUpdateRequest pedidoDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizar
         Pedido pedido = this.listarPorPedidoId(pedidoId);

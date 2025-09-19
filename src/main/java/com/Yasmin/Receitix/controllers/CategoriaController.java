@@ -7,6 +7,7 @@ import com.Yasmin.Receitix.DTO.response.CategoriaDTOUpdateResponse;
 import com.Yasmin.Receitix.entity.Categoria;
 import com.Yasmin.Receitix.service.CategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("api/categoria")
+@Tag(name="Categoria", description="API para gerenciamento de categoria")
 public class CategoriaController {
     private CategoriaService categoriaService;
 

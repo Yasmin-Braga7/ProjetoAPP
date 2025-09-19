@@ -16,6 +16,7 @@ import java.util.List;
 public class PedidoItemService {
 
     private final PedidoItemRepository pedidoItemRepository;
+    private final PedidoRepository pedidoRepository;
     private final ProdutoRepository produtoRepository;
 
     @Autowired
@@ -24,6 +25,7 @@ public class PedidoItemService {
     public PedidoItemService(PedidoItemRepository pedidoItemRepository, PedidoRepository pedidoRepository, ProdutoRepository produtoRepository) {
         this.pedidoItemRepository = pedidoItemRepository;
         this.produtoRepository = produtoRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
     public List<PedidoItem> listarPedidoItens(){
@@ -39,7 +41,7 @@ public class PedidoItemService {
         pedidoItem.setPreco(pedidoItemDTORequest.getPreco());
         pedidoItem.setQuantidade(pedidoItemDTORequest.getQuantidade());
         pedidoItem.setSubtotal(pedidoItemDTORequest.getSubtotal());
-        pedidoItem.setPedido(pedidoItemRepository.obterPedidoItemPeloId(pedidoItemDTORequest.getIdPedido());
+        pedidoItem.setPedido(pedidoRepository.obterPedidoPeloId(pedidoItemDTORequest.getIdPedido()));
         pedidoItem.setProduto(produtoRepository.obterProdutoPeloId(pedidoItemDTORequest.getIdProduto()));
         PedidoItem pedidoItemSave = this.pedidoItemRepository.save(pedidoItem);
         PedidoItemDTOResponse pedidoItemDTOResponse = modelMapper.map(pedidoItemSave, PedidoItemDTOResponse.class);
