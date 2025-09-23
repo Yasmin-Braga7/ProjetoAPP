@@ -3,6 +3,7 @@ package com.Yasmin.Receitix.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,12 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private Set<Pedido> pedidos;
+
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//    @JoinTable(name = "users_roles",
+//            joinColumns = @JoinColumn(name = "usuario_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private List<Role> roles;
 
     public int getId() {
         return id;
@@ -101,4 +108,5 @@ public class Usuario {
     public void setPedidos(Set<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
+
 }
