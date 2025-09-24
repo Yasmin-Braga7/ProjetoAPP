@@ -4,7 +4,7 @@ import com.Yasmin.Receitix.entity.RoleName;
 
 public record CreateUserDTO(
         String email,
-        String password,
+        String senha,
         RoleName role
 ) {
 }
