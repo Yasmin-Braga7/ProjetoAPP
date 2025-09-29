@@ -37,8 +37,8 @@ public class SecurityConfiguration {
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
-    public static final String [] ENDPOINTS_CUSTOMER = {
-            "/users/test/customer"
+    public static final String [] ENDPOINTS_CLIENTE = {
+            "/api/categoria/listar"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
@@ -55,7 +55,7 @@ public class SecurityConfiguration {
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
-                        .requestMatchers(ENDPOINTS_CUSTOMER).hasRole("CUSTOMER")
+                        .requestMatchers(ENDPOINTS_CLIENTE).hasRole("CLIENTE")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                         .anyRequest().denyAll()
                 )
