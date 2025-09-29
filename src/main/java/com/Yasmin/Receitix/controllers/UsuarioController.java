@@ -1,5 +1,7 @@
 package com.Yasmin.Receitix.controllers;
 
+import com.Yasmin.Receitix.DTO.LoginUserDTO;
+import com.Yasmin.Receitix.DTO.RecoveryJwtTokenDTO;
 import com.Yasmin.Receitix.DTO.request.UsuarioDTORequest;
 import com.Yasmin.Receitix.DTO.request.UsuarioDTOUpdateRequest;
 import com.Yasmin.Receitix.DTO.response.UsuarioDTOResponse;
@@ -73,5 +75,11 @@ public class UsuarioController {
     public  ResponseEntity apagarUsuario(@PathVariable("usuarioId") Integer usuarioId){
         usuarioService.apagarUsuario(usuarioId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<RecoveryJwtTokenDTO> authenticateUser(@RequestBody LoginUserDTO loginUserDTO) {
+        RecoveryJwtTokenDTO token = usuarioService.authenticateUser(loginUserDTO);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }

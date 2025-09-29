@@ -1,13 +1,20 @@
 package com.Yasmin.Receitix.service;
 
+import com.Yasmin.Receitix.DTO.LoginUserDTO;
+import com.Yasmin.Receitix.DTO.RecoveryJwtTokenDTO;
 import com.Yasmin.Receitix.DTO.request.UsuarioDTORequest;
 import com.Yasmin.Receitix.DTO.request.UsuarioDTOUpdateRequest;
 import com.Yasmin.Receitix.DTO.response.UsuarioDTOResponse;
 import com.Yasmin.Receitix.DTO.response.UsuarioDTOUpdateResponse;
+import com.Yasmin.Receitix.config.SecurityConfiguration;
+import com.Yasmin.Receitix.entity.Role;
 import com.Yasmin.Receitix.entity.Usuario;
 import com.Yasmin.Receitix.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +22,33 @@ import java.util.List;
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private SecurityConfiguration securityConfiguration;
+
+    @Autowired
+    private JwtTokenService jwtTokenService;
+
     @Autowired
     private ModelMapper modelMapper;
+
+    // Método responsável por autenticar um usuário e retornar um token JWT
+    public RecoveryJwtTokenDTO authenticateUser(LoginUserDTO loginUserDTO) {
+        // Cria um objeto de autenticação com o email e a senha do usuário
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginUserDTO.email(), loginUserDTO.senha());
+
+        // Autentica o usuário com as credenciais fornecidas
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        // Obtém o objeto UserDetails do usuário autenticado
+        UsuarioDetailsImpl usuarioDetails = (UsuarioDetailsImpl) authentication.getPrincipal();
+
+        // Gera um token JWT para o usuário autenticado
+        return new RecoveryJwtTokenDTO(jwtTokenService.generateToken(usuarioDetails));
+    }
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -32,7 +64,18 @@ public class UsuarioService {
 
     public UsuarioDTOResponse criarUsuario(UsuarioDTORequest usuarioDTORequest) {
 
-        Usuario usuario = modelMapper.map(usuarioDTORequest, Usuario.class);
+        Role role = new Role();
+        role.setName(usuarioDTORequest.getRole());
+
+        Usuario usuario = new Usuario();
+        usuario.setNome(usuarioDTORequest.getNome());
+        usuario.setEmail(usuarioDTORequest.getEmail());
+        usuario.setTelefone(usuarioDTORequest.getTelefone());
+        usuario.setEndereco(usuarioDTORequest.getEndereco());
+        usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioDTORequest.getSenha()));
+        usuario.setCriado(usuarioDTORequest.getCriado());
+        usuario.setStatus(usuarioDTORequest.getStatus());
+        usuario.setRoles(List.of(role));
         Usuario usuarioSave = this.usuarioRepository.save(usuario);
         UsuarioDTOResponse usuarioDTOResponse = modelMapper.map(usuarioSave, UsuarioDTOResponse.class);
         return usuarioDTOResponse;

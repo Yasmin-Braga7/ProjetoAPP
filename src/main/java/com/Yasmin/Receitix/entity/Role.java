@@ -3,13 +3,15 @@ package com.Yasmin.Receitix.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="roles")
+@Table(name="role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role_name")
     private RoleName name;
 
     public Long getId() {

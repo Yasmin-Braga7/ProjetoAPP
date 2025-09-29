@@ -1,5 +1,6 @@
 package com.Yasmin.Receitix.DTO.request;
 
+import com.Yasmin.Receitix.entity.RoleName;
 import jakarta.persistence.Column;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,8 @@ public class UsuarioDTORequest {
     private LocalDateTime criado;
 
     private int status;
+
+    private RoleName role;
 
     public String getNome() {
         return nome;
@@ -73,5 +76,13 @@ public class UsuarioDTORequest {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public RoleName getRole() {
+        return role;
+    }
+
+    public void setRole(RoleName role) {
+        this.role = role;
     }
 }

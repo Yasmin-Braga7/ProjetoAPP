@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
@@ -22,4 +23,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("SELECT u FROM Usuario u WHERE u.id=:id AND u.status >= 0")
     Usuario obterUsuarioPeloId(@Param("id") Integer usuarioId);
+
+    Optional<Usuario> findByEmail(String email);
 }

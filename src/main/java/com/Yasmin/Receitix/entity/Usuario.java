@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity(name = "Usuario")
-@Table(name = "usuarios")
+@Table(name = "usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class Usuario {
     private Set<Pedido> pedidos;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "usuarios_roles",
+    @JoinTable(name = "usuario_role",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
