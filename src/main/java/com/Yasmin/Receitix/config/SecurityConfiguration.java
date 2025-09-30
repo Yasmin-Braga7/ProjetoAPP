@@ -33,7 +33,7 @@ public class SecurityConfiguration {
 
     // Endpoints que requerem autenticação para serem acessados
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-            "/users/test"
+            "/api/usuario/login"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
@@ -43,7 +43,16 @@ public class SecurityConfiguration {
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
     public static final String [] ENDPOINTS_ADMIN = {
-            "/users/test/administrator"
+            "/api/categoria/atualizar/{categoriaId}",
+            "/api/categoria/atualizarStatus/{categoriaId}",
+            "/api/categoria/listar",
+            "/api/categoria/listarPorCategoriaId/{categoriaId}",
+            "/api/categoria/apagar/{categoriaId}",
+
+            "/api/usuario/atualizarStatus/{usuarioId}",
+            "/api/usuario/listar",
+            "/api/usuario/listarPorUsuarioId/{usuarioId}",
+            "/api/usuario/apagar/{usuarioId}",
     };
 
     @Bean
