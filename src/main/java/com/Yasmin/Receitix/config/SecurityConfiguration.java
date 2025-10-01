@@ -44,6 +44,7 @@ public class SecurityConfiguration {
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
     public static final String [] ENDPOINTS_ADMIN = {
             "/api/categoria/atualizar/{categoriaId}",
+            "/api/categoria/criar",
             "/api/categoria/atualizarStatus/{categoriaId}",
             "/api/categoria/listar",
             "/api/categoria/listarPorCategoriaId/{categoriaId}",
@@ -53,6 +54,25 @@ public class SecurityConfiguration {
             "/api/usuario/listar",
             "/api/usuario/listarPorUsuarioId/{usuarioId}",
             "/api/usuario/apagar/{usuarioId}",
+
+            "/api/pedidoItem/criar",
+            "/api/pedidoItem/listar",
+            "/api/pedidoItem/listarPorId/{pedidoItemId}",
+            "/api/pedidoItem/apagar/{pedidoItemId}",
+
+            "/api/pedido/atualizar/{pedidoId}",
+            "/api/pedido/criar",
+            "/api/pedido/atualizarStatus/{pedidoItem}",
+            "/api/pedido/listar",
+            "/api/pedido/listarPorPedidoId/{pedidoId}",
+            "/api/pedido/apagar/{pedidoId}",
+
+            "/api/produto/atualizar/{produtoId}",
+            "/api/produto/criar",
+            "/api/produto/atualizarStatus/{produtoId}",
+            "/api/produto/listar",
+            "/api/produto/listarPorProdutoId/{produtoId}",
+            "/api/produto/apagar/{produtoId}"
     };
 
     @Bean
@@ -63,7 +83,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
-                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRATOR")
+                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_CLIENTE).hasRole("CLIENTE")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                         .anyRequest().denyAll()
