@@ -24,7 +24,6 @@ public class SecurityConfiguration {
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
             "/api/usuario/login", // Url que usaremos para fazer login
             "/api/usuario/criar", // Url que usaremos para criar um usuário
-            "/h2-console",
             // 🔓 Swagger/OpenAPI UI
             "/v3/api-docs/**",
             "/swagger-ui/**",
@@ -33,49 +32,50 @@ public class SecurityConfiguration {
 
     // Endpoints que requerem autenticação para serem acessados
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
+            "/api/categoria/listar",
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
-    public static final String [] ENDPOINTS_CLIENTE = {
-            "/api/categoria/listar",
-            "/api/usuario/atualizar/{usuarioId}",
-            "/api/pedido/atualizar/{pedidoId}",
+    public static final String [] ENDPOINTS_CLIENT = {
+            "/api/usuario/atualizar",
+            "/api/pedido/atualizar",
             "/api/pedido/listar",
-            "/api/produto/listar"
+            "/api/produto/listar",
+            "/api/categoria/listar",
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
     public static final String [] ENDPOINTS_ADMIN = {
-            "/api/categoria/atualizar/{categoriaId}",
+            "/api/categoria/atualizar",
             "/api/categoria/criar",
-            "/api/categoria/atualizarStatus/{categoriaId}",
+            "/api/categoria/atualizarStatus",
             "/api/categoria/listar",
-            "/api/categoria/listarPorCategoriaId/{categoriaId}",
-            "/api/categoria/apagar/{categoriaId}",
+            "/api/categoria/listarPorCategoriaId",
+            "/api/categoria/apagar",
 
-            "/api/usuario/atualizarStatus/{usuarioId}",
+            "/api/usuario/atualizarStatus",
             "/api/usuario/listar",
-            "/api/usuario/listarPorUsuarioId/{usuarioId}",
-            "/api/usuario/apagar/{usuarioId}",
+            "/api/usuario/listarPorUsuarioId",
+            "/api/usuario/apagar",
 
             "/api/pedidoItem/criar",
             "/api/pedidoItem/listar",
-            "/api/pedidoItem/listarPorId/{pedidoItemId}",
-            "/api/pedidoItem/apagar/{pedidoItemId}",
+            "/api/pedidoItem/listarPorId",
+            "/api/pedidoItem/apagar",
 
-            "/api/pedido/atualizar/{pedidoId}",
+            "/api/pedido/atualizar",
             "/api/pedido/criar",
-            "/api/pedido/atualizarStatus/{pedidoItem}",
+            "/api/pedido/atualizarStatus",
             "/api/pedido/listar",
-            "/api/pedido/listarPorPedidoId/{pedidoId}",
-            "/api/pedido/apagar/{pedidoId}",
+            "/api/pedido/listarPorPedidoId",
+            "/api/pedido/apagar",
 
-            "/api/produto/atualizar/{produtoId}",
+            "/api/produto/atualizar",
             "/api/produto/criar",
-            "/api/produto/atualizarStatus/{produtoId}",
+            "/api/produto/atualizarStatus",
             "/api/produto/listar",
-            "/api/produto/listarPorProdutoId/{produtoId}",
-            "/api/produto/apagar/{produtoId}"
+            "/api/produto/listarPorProdutoId",
+            "/api/produto/apagar"
     };
 
     @Bean
@@ -87,7 +87,7 @@ public class SecurityConfiguration {
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRADOR")
-                        .requestMatchers(ENDPOINTS_CLIENTE).hasRole("CLIENTE")
+                        .requestMatchers(ENDPOINTS_CLIENT).hasRole("CLIENTE")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                         .anyRequest().denyAll()
                 )

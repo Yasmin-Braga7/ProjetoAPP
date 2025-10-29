@@ -17,9 +17,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/categoria")
-@Tag(name="Categoria", description="API para gerenciamento de categoria")
+@Tag(name="categoria", description="API para gerenciamento de categoria")
 public class CategoriaController {
-    private CategoriaService categoriaService;
+    private final CategoriaService categoriaService;
 
     public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;

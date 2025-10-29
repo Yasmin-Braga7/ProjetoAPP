@@ -8,6 +8,7 @@ import com.Yasmin.Receitix.DTO.response.UsuarioDTOResponse;
 import com.Yasmin.Receitix.DTO.response.UsuarioDTOUpdateResponse;
 import com.Yasmin.Receitix.config.SecurityConfiguration;
 import com.Yasmin.Receitix.entity.Role;
+import com.Yasmin.Receitix.entity.RoleName;
 import com.Yasmin.Receitix.entity.Usuario;
 import com.Yasmin.Receitix.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,8 @@ import java.util.List;
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+
+    private final RoleService roleService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -50,8 +53,9 @@ public class UsuarioService {
         return new RecoveryJwtTokenDTO(jwtTokenService.generateToken(usuarioDetails));
     }
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, RoleService roleService) {
         this.usuarioRepository = usuarioRepository;
+        this.roleService = roleService;
     }
 
     public List<Usuario> listarUsuarios(){
@@ -64,10 +68,13 @@ public class UsuarioService {
 
     public UsuarioDTOResponse criarUsuario(UsuarioDTORequest usuarioDTORequest) {
 
-        Role role = new Role();
-        role.setName(usuarioDTORequest.getRole());
-
         Usuario usuario = new Usuario();
+
+        Role role;
+        RoleName roleNome = usuarioDTORequest.getRole();
+        role = roleService.getRolesByName(roleNome);
+        usuario.setRoles(List.of(role));
+
         usuario.setNome(usuarioDTORequest.getNome());
         usuario.setEmail(usuarioDTORequest.getEmail());
         usuario.setTelefone(usuarioDTORequest.getTelefone());
@@ -87,9 +94,13 @@ public class UsuarioService {
 
         //se encontra o registro a ser atualizado
         if (usuario != null){
-            //copia os dados a serem atualizados do DTO de entrada para um objeto do tipo participante
-            //que é compatível com o repository para atualizar
-            modelMapper.map(usuarioDTORequest,usuario);
+            usuario.setNome(usuarioDTORequest.getNome());
+            usuario.setEmail(usuarioDTORequest.getEmail());
+            usuario.setTelefone(usuarioDTORequest.getTelefone());
+            usuario.setEndereco(usuarioDTORequest.getEndereco());
+            usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioDTORequest.getSenha()));
+            usuario.setCriado(usuarioDTORequest.getCriado());
+            usuario.setStatus(usuarioDTORequest.getStatus());
 
             //com o objeto no formato correto tipo "participante" o comando "save" salva
             // no banco de dados o objeto atualizado

@@ -1,6 +1,7 @@
 package com.Yasmin.Receitix.entity;
 
 public enum RoleName {
-    ROLE_CLIENTE,
-    ROLE_ADMINISTRADOR
+    ROLE_ADMINISTRADOR,
+    ROLE_CLIENTE
+
 }
