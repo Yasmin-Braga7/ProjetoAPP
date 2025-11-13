@@ -21,7 +21,7 @@ pipeline {
         stage('Construir Imagem Docker') {
             steps {
                 script {
-                    def appName = 'projetoapp'
+                    def appName = 'receitix'
                     def imageTag = "${appName}:${env.BUILD_ID}"
 
                     // Construir a imagem Docker
@@ -33,7 +33,7 @@ pipeline {
         stage('Fazer Deploy') {
             steps {
                 script {
-                    def appName = 'projetoapp'
+                    def appName = 'receitix'
                     def imageTag = "${appName}:${env.BUILD_ID}"
 
                     // Parar e remover o container existente, se houver
