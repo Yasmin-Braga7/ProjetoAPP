@@ -46,17 +46,17 @@ public class SecurityConfiguration {
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
     public static final String [] ENDPOINTS_ADMIN = {
-            "/api/categoria/atualizar",
+            "/api/categoria/atualizar/{categoriaId}",
             "/api/categoria/criar",
-            "/api/categoria/atualizarStatus",
+            "/api/categoria/atualizarStatus/{categoriaId}",
             "/api/categoria/listar",
-            "/api/categoria/listarPorCategoriaId",
-            "/api/categoria/apagar",
+            "/api/categoria/listarPorCategoriaId/{categoriaId}",
+            "/api/categoria/apagar/{categoriaId}",
 
             "/api/usuario/atualizarStatus",
             "/api/usuario/listar",
-            "/api/usuario/listarPorUsuarioId",
-            "/api/usuario/apagar",
+            "/api/usuario/listarPorUsuarioId/{usuarioId}",
+            "/api/usuario/apagar/{usuarioId}",
 
             "/api/pedidoItem/criar",
             "/api/pedidoItem/listar",
