@@ -13,8 +13,6 @@ public class UsuarioDTOResponse {
 
     private String endereco;
 
-    private String senha;
-
     private LocalDateTime criado;
 
     private int status;
@@ -57,14 +55,6 @@ public class UsuarioDTOResponse {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public LocalDateTime getCriado() {
