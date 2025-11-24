@@ -38,10 +38,16 @@ public class UsuarioService {
     @Autowired
     private ModelMapper modelMapper;
 
+    public UsuarioService(UsuarioRepository usuarioRepository, RoleService roleService) {
+        this.usuarioRepository = usuarioRepository;
+        this.roleService = roleService;
+    }
+
     // Método responsável por autenticar um usuário e retornar um token JWT
     public RecoveryJwtTokenDTO authenticateUser(LoginUserDTO loginUserDTO) {
         // Cria um objeto de autenticação com o email e a senha do usuário
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginUserDTO.email(), loginUserDTO.senha());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(loginUserDTO.email(), loginUserDTO.senha());
 
         // Autentica o usuário com as credenciais fornecidas
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
@@ -49,13 +55,22 @@ public class UsuarioService {
         // Obtém o objeto UserDetails do usuário autenticado
         UsuarioDetailsImpl usuarioDetails = (UsuarioDetailsImpl) authentication.getPrincipal();
 
-        // Gera um token JWT para o usuário autenticado
-        return new RecoveryJwtTokenDTO(jwtTokenService.generateToken(usuarioDetails));
-    }
+        RecoveryJwtTokenDTO recoveryJwtTokenDTO = new RecoveryJwtTokenDTO();
 
-    public UsuarioService(UsuarioRepository usuarioRepository, RoleService roleService) {
-        this.usuarioRepository = usuarioRepository;
-        this.roleService = roleService;
+        UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse();
+        Usuario usuario = usuarioRepository.findByEmail(loginUserDTO.email());
+        usuarioDTOResponse.setId(usuario.getId());
+        usuarioDTOResponse.setNome(usuario.getNome());
+        usuarioDTOResponse.setEmail(usuario.getEmail());
+        usuarioDTOResponse.setTelefone(usuario.getTelefone());
+        usuarioDTOResponse.setEndereco(usuario.getEndereco());
+        usuarioDTOResponse.setStatus(usuario.getStatus());
+
+        recoveryJwtTokenDTO.setUsuario(usuarioDTOResponse);
+        recoveryJwtTokenDTO.setToken(jwtTokenService.generateToken(usuarioDetails));
+
+        // Gera um token JWT para o usuário autenticado
+        return recoveryJwtTokenDTO;
     }
 
     public List<Usuario> listarUsuarios(){
