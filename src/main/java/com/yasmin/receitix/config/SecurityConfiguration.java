@@ -37,7 +37,7 @@ public class SecurityConfiguration {
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
     public static final String [] ENDPOINTS_CLIENT = {
-            "/api/usuario/atualizar",
+            "/api/usuario/atualizar/{usuarioId}",
             "/api/pedido/atualizar",
             "/api/pedido/listar",
             "/api/produto/listar",
