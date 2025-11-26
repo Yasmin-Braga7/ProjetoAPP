@@ -43,7 +43,7 @@ public class ProdutoService {
         produto.setCriado(produtoDTORequest.getCriado());
         produto.setDescricao(produtoDTORequest.getDescricao());
         produto.setStatus(produtoDTORequest.getStatus());
-        produto.setImagem(produtoDTORequest.getImagem());
+        produto.setImagem(produto.getImagem());
         produto.setNome(produtoDTORequest.getNome());
         produto.setPreco(produtoDTORequest.getPreco());
         produto.setCategoria(categoriaRepository.obterCategoriaPeloId(produtoDTORequest.getIdCategoria()));
@@ -59,7 +59,7 @@ public class ProdutoService {
             produto.setCriado(produtoDTORequest.getCriado());
             produto.setDescricao(produtoDTORequest.getDescricao());
             produto.setStatus(produtoDTORequest.getStatus());
-            produto.setImagem(produtoDTORequest.getImagem());
+            produto.setImagem(produto.getImagem());
             produto.setNome(produtoDTORequest.getNome());
             produto.setPreco(produtoDTORequest.getPreco());
             produto.setCategoria(categoriaRepository.obterCategoriaPeloId(produtoDTORequest.getIdCategoria()));

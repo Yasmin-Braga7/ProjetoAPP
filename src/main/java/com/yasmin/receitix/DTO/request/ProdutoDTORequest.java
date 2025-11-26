@@ -12,7 +12,7 @@ public class ProdutoDTORequest {
 
     private BigDecimal preco;
 
-    private String imagem;
+    private byte[] imagem;
 
     private LocalDateTime criado;
 
@@ -52,11 +52,11 @@ public class ProdutoDTORequest {
         this.preco = preco;
     }
 
-    public String getImagem() {
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
 

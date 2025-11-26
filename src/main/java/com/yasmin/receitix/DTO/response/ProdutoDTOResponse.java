@@ -12,7 +12,7 @@ public class ProdutoDTOResponse {
 
     private BigDecimal preco;
 
-    private String imagem;
+    private byte[] imagem;
 
     private LocalDateTime criado;
 
@@ -50,11 +50,11 @@ public class ProdutoDTOResponse {
         this.preco = preco;
     }
 
-    public String getImagem() {
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
 
