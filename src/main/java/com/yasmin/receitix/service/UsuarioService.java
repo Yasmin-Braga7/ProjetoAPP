@@ -100,8 +100,12 @@ public class UsuarioService {
         usuario.setTelefone(usuarioDTORequest.getTelefone());
         usuario.setEndereco(usuarioDTORequest.getEndereco());
         usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioDTORequest.getSenha()));
-        usuario.setCriado(usuarioDTORequest.getCriado());
-        usuario.setStatus(usuarioDTORequest.getStatus());
+        if (usuarioDTORequest.getCriado() != null) {
+            usuario.setCriado(usuarioDTORequest.getCriado());
+        } else {
+            usuario.setCriado(java.time.LocalDateTime.now());
+        }
+        usuario.setStatus(1);
         Usuario usuarioSave = this.usuarioRepository.save(usuario);
         UsuarioDTOResponse usuarioDTOResponse = modelMapper.map(usuarioSave, UsuarioDTOResponse.class);
         return usuarioDTOResponse;
