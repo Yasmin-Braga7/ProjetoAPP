@@ -28,7 +28,7 @@ public class Usuario {
     @Column(name = "usuario_status")
     private int status;
     @Lob
-    @Column(name = "produto_imagem")
+    @Column(name = "usuario_imagem")
     private byte[] imagem;
 
     @OneToMany(mappedBy = "usuario")
