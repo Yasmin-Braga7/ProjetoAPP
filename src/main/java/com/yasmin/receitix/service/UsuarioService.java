@@ -85,9 +85,14 @@ public class UsuarioService {
 
         Usuario usuario = new Usuario();
 
-        Role role;
         RoleName roleNome = usuarioDTORequest.getRole();
-        role = roleService.getRolesByName(roleNome);
+        if (roleNome == null) {
+            roleNome = RoleName.ROLE_CLIENTE;
+        }
+        Role role = roleService.getRolesByName(roleNome);
+        if (role == null) {
+            throw new RuntimeException("Erro: Role " + roleNome + " não encontrada no banco de dados.");
+        }
         usuario.setRoles(List.of(role));
 
         usuario.setNome(usuarioDTORequest.getNome());
@@ -97,7 +102,6 @@ public class UsuarioService {
         usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioDTORequest.getSenha()));
         usuario.setCriado(usuarioDTORequest.getCriado());
         usuario.setStatus(usuarioDTORequest.getStatus());
-        usuario.setRoles(List.of(role));
         Usuario usuarioSave = this.usuarioRepository.save(usuario);
         UsuarioDTOResponse usuarioDTOResponse = modelMapper.map(usuarioSave, UsuarioDTOResponse.class);
         return usuarioDTOResponse;
