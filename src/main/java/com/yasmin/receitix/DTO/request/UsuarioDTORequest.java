@@ -19,6 +19,8 @@ public class UsuarioDTORequest {
 
     private int status;
 
+    private byte[] imagem;
+
     private RoleName role;
 
     public String getNome() {
@@ -75,6 +77,14 @@ public class UsuarioDTORequest {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 
     public RoleName getRole() {

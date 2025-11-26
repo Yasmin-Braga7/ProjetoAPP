@@ -19,6 +19,8 @@ public class UsuarioDTOResponse {
 
     private int status;
 
+    private byte[] imagem;
+
     public int getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class UsuarioDTOResponse {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 }

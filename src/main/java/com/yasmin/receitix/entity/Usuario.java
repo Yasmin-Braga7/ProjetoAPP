@@ -27,6 +27,9 @@ public class Usuario {
     private LocalDateTime criado;
     @Column(name = "usuario_status")
     private int status;
+    @Lob
+    @Column(name = "produto_imagem")
+    private byte[] imagem;
 
     @OneToMany(mappedBy = "usuario")
     private Set<Pedido> pedidos;
@@ -99,6 +102,14 @@ public class Usuario {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
     }
 
     public Set<Pedido> getPedidos() {
