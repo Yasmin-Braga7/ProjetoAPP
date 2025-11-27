@@ -7,6 +7,7 @@ import com.yasmin.receitix.DTO.request.UsuarioDTOUpdateRequest;
 import com.yasmin.receitix.DTO.response.UsuarioDTOResponse;
 import com.yasmin.receitix.DTO.response.UsuarioDTOUpdateResponse;
 import com.yasmin.receitix.entity.Usuario;
+import com.yasmin.receitix.repository.UsuarioRepository;
 import com.yasmin.receitix.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,8 +25,11 @@ import java.util.List;
 public class UsuarioController {
     private UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    private UsuarioRepository usuarioRepository;
+
+    public UsuarioController(UsuarioService usuarioService, UsuarioRepository usuarioRepository) {
         this.usuarioService = usuarioService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @GetMapping("/listar")
@@ -60,6 +65,29 @@ public class UsuarioController {
 
         return ResponseEntity.ok(usuarioService.atualizarUsuario(usuarioId, usuarioDTORequest));
     }
+
+    @PostMapping("/uploadImagem/{usuarioId}")
+    public ResponseEntity<String> uploadImagem(
+            @PathVariable Integer usuarioId,
+            @RequestParam("imagem") MultipartFile file
+    ) {
+        try {
+            Usuario usuario = usuarioService.listarPorUsuarioId(usuarioId);
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+            }
+
+            usuario.setImagem(file.getBytes());
+            usuarioService.salvar(usuario); // EXPLICO LOGO ABAIXO
+
+            return ResponseEntity.ok("Imagem enviada com sucesso");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao enviar imagem");
+        }
+    }
+
+
 
     @PatchMapping("/atualizarStatus/{usuarioId}")
     @Operation(summary = "Atualizar campo status do usuario", description = "Endpoint para atualizar o status do usuario")
