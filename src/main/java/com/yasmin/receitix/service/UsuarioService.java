@@ -111,10 +111,6 @@ public class UsuarioService {
         return usuarioDTOResponse;
     }
 
-    public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
-
     public UsuarioDTOResponse atualizarUsuario(Integer usuarioId, UsuarioDTORequest usuarioDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizar
         Usuario usuario = this.listarPorUsuarioId(usuarioId);
