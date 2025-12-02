@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 
@@ -43,7 +44,17 @@ public class ProdutoService {
         produto.setCriado(produtoDTORequest.getCriado());
         produto.setDescricao(produtoDTORequest.getDescricao());
         produto.setStatus(produtoDTORequest.getStatus());
-        produto.setImagem(produto.getImagem());
+
+        // Decodifica a string Base64 para byte[] antes de salvar
+        if (produtoDTORequest.getImagemBase64() != null && !produtoDTORequest.getImagemBase64().isEmpty()) {
+            // Remove o prefixo Data URI (ex: data:image/jpeg;base64,)
+            String base64Image = produtoDTORequest.getImagemBase64().split(",")[1];
+            byte[] imagemBytes = Base64.getDecoder().decode(base64Image);
+            produto.setImagem(imagemBytes);
+        } else {
+            produto.setImagem(null);
+        }
+
         produto.setNome(produtoDTORequest.getNome());
         produto.setPreco(produtoDTORequest.getPreco());
         produto.setCategoria(categoriaRepository.obterCategoriaPeloId(produtoDTORequest.getIdCategoria()));
@@ -59,7 +70,17 @@ public class ProdutoService {
             produto.setCriado(produtoDTORequest.getCriado());
             produto.setDescricao(produtoDTORequest.getDescricao());
             produto.setStatus(produtoDTORequest.getStatus());
-            produto.setImagem(produto.getImagem());
+
+            // Decodifica a string Base64 para byte[] antes de salvar
+            if (produtoDTORequest.getImagemBase64() != null && !produtoDTORequest.getImagemBase64().isEmpty()) {
+                // Remove o prefixo Data URI (ex: data:image/jpeg;base64,)
+                String base64Image = produtoDTORequest.getImagemBase64().split(",")[1];
+                byte[] imagemBytes = Base64.getDecoder().decode(base64Image);
+                produto.setImagem(imagemBytes);
+            } else {
+                produto.setImagem(produto.getImagem()); // Mantém a imagem existente se não for enviada uma nova
+            }
+
             produto.setNome(produtoDTORequest.getNome());
             produto.setPreco(produtoDTORequest.getPreco());
             produto.setCategoria(categoriaRepository.obterCategoriaPeloId(produtoDTORequest.getIdCategoria()));
@@ -71,7 +92,7 @@ public class ProdutoService {
 
     }
 
-    public ProdutoDTOUpdateResponse atualizarStatusParticipante(Integer produtoId, ProdutoDTOUpdateRequest produtoDTOUpdateRequest) {
+    public ProdutoDTOUpdateResponse atualizarStatusProduto(Integer produtoId, ProdutoDTOUpdateRequest produtoDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizar
         Produto produto = this.listarPorProdutoId(produtoId);
 

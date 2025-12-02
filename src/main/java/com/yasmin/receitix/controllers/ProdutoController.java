@@ -68,7 +68,7 @@ public class ProdutoController {
             @Valid
             @PathVariable("produtoId") Integer produtoId,
             @RequestBody ProdutoDTOUpdateRequest produtoDTOUpdateRequest){
-        return  ResponseEntity.ok(produtoService.atualizarStatusParticipante(produtoId, produtoDTOUpdateRequest));
+        return  ResponseEntity.ok(produtoService.atualizarStatusProduto(produtoId, produtoDTOUpdateRequest));
     }
 
     @DeleteMapping("/apagar/{produtoId}")
