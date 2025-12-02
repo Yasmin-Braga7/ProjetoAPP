@@ -60,22 +60,22 @@ public class SecurityConfiguration {
 
             "/api/pedidoItem/criar",
             "/api/pedidoItem/listar",
-            "/api/pedidoItem/listarPorId",
-            "/api/pedidoItem/apagar",
+            "/api/pedidoItem/listarPorId/{pedidoItemId}",
+            "/api/pedidoItem/apagar/{pedidoItemId}",
 
-            "/api/pedido/atualizar",
+            "/api/pedido/atualizar/{pedidoId}",
             "/api/pedido/criar",
-            "/api/pedido/atualizarStatus",
+            "/api/pedido/atualizarStatus/{pedidoId}",
             "/api/pedido/listar",
-            "/api/pedido/listarPorPedidoId",
-            "/api/pedido/apagar",
+            "/api/pedido/listarPorPedidoId/{pedidoId}",
+            "/api/pedido/apagar/{pedidoId}",
 
-            "/api/produto/atualizar",
+            "/api/produto/atualizar/{produtoId}",
             "/api/produto/criar",
-            "/api/produto/atualizarStatus",
+            "/api/produto/atualizarStatus/{produtoId}",
             "/api/produto/listar",
-            "/api/produto/listarPorProdutoId",
-            "/api/produto/apagar"
+            "/api/produto/listarPorProdutoId/{produtoId}",
+            "/api/produto/apagar/{produtoId}"
     };
 
     @Bean
