@@ -27,7 +27,11 @@ public class SecurityConfiguration {
             // 🔓 Swagger/OpenAPI UI
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+
+            "/api/v1/images/foto/upload/{idProduto}",
+            "/api/v1/images/foto/{idProdutofoto}",
+            "/api/v1/images/{idProdutofoto}"
     };
 
     // Endpoints que requerem autenticação para serem acessados

@@ -22,6 +22,10 @@ public class Produto {
     private BigDecimal preco;
     @Column(name = "produto_imagem")
     private byte[] imagem;
+    @Column(name = "produto_imagem_extensao")
+    private String extensao;
+    @Column(name = "produto_imagem_nome")
+    private String imagemNome;
     @Column(name = "produto_criado")
     private LocalDateTime criado;
     @Column(name = "produto_status")
@@ -79,6 +83,21 @@ public class Produto {
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public String getExtensao() {
+        return extensao;
+    }
+    public void setExtensao(String extensao) {
+        this.extensao = extensao;
+    }
+
+    public String getImagemNome() {
+        return imagemNome;
+    }
+
+    public void setImagemNome(String imagemNome) {
+        this.imagemNome = imagemNome;
     }
 
     public LocalDateTime getCriado() {
