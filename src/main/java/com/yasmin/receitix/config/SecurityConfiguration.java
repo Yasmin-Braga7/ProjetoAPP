@@ -86,8 +86,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
-                        .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMINISTRADOR")
-                        .requestMatchers(ENDPOINTS_CLIENT).hasRole("CLIENTE")
+                        .requestMatchers(ENDPOINTS_ADMIN).hasAuthority("ROLE_CLIENTE")
+                        .requestMatchers(ENDPOINTS_CLIENT).hasAuthority("ROLE_ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
                         .anyRequest().denyAll()
                 )
