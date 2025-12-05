@@ -43,16 +43,11 @@ public class ProdutoService {
         produto.setCriado(produtoDTORequest.getCriado());
         produto.setDescricao(produtoDTORequest.getDescricao());
         produto.setStatus(produtoDTORequest.getStatus());
-
-        // Decodifica a string Base64 para byte[] antes de salvar
-        if (produtoDTORequest.getImagemBase64() != null && !produtoDTORequest.getImagemBase64().isEmpty()) {
-            // Remove o prefixo Data URI (ex: data:image/jpeg;base64,)
-            String base64Image = produtoDTORequest.getImagemBase64().split(",")[1];
-            byte[] imagemBytes = Base64.getDecoder().decode(base64Image);
-            produto.setImagem(imagemBytes);
-        } else {
-            produto.setImagem(null);
-        }
+        
+        // Remove a lógica de imagem base64, pois será feito em um endpoint separado
+        produto.setImagem(null);
+        produto.setExtensao(null);
+        produto.setImagemNome(null);
 
         produto.setNome(produtoDTORequest.getNome());
         produto.setPreco(produtoDTORequest.getPreco());
