@@ -39,13 +39,20 @@ public class SecurityConfiguration {
 
     };
 
+    public static final String [] ENDPOINTS_SHARED = {
+            "/api/produto/listar",
+            "/api/produto/listarPorProdutoId/{produtoId}",
+            "/api/categoria/listar",
+            "/api/categoria/listarPorCategoriaId/{categoriaId}",
+            "/api/pedido/listar",
+            "/api/pedido/listarPorPedidoId/{pedidoId}",
+            "/api/usuario/atualizar/{usuarioId}" // Talvez o admin também precise atualizar usuários? Se não, mova para CLIENT
+    };
+
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
     public static final String [] ENDPOINTS_CLIENT = {
-            "/api/usuario/atualizar/{usuarioId}",
-            "/api/pedido/atualizar",
-            "/api/pedido/listar",
-            "/api/produto/listar",
-            "/api/categoria/listar",
+            "/api/pedido/criar", // O cliente cria o pedido
+            "/api/pedido/atualizar"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
@@ -53,8 +60,6 @@ public class SecurityConfiguration {
             "/api/categoria/atualizar/{categoriaId}",
             "/api/categoria/criar",
             "/api/categoria/atualizarStatus/{categoriaId}",
-            "/api/categoria/listar",
-            "/api/categoria/listarPorCategoriaId/{categoriaId}",
             "/api/categoria/apagar/{categoriaId}",
 
             "/api/usuario/atualizarStatus",
@@ -62,23 +67,19 @@ public class SecurityConfiguration {
             "/api/usuario/listarPorUsuarioId/{usuarioId}",
             "/api/usuario/apagar/{usuarioId}",
 
+            "/api/pedidoItem/listar", // Talvez o cliente precise ver itens do seu pedido? Se sim, mova para SHARED
             "/api/pedidoItem/criar",
-            "/api/pedidoItem/listar",
             "/api/pedidoItem/listarPorId/{pedidoItemId}",
             "/api/pedidoItem/apagar/{pedidoItemId}",
 
             "/api/pedido/atualizar/{pedidoId}",
-            "/api/pedido/criar",
-            "/api/pedido/atualizarStatus/{pedidoId}",
-            "/api/pedido/listar",
-            "/api/pedido/listarPorPedidoId/{pedidoId}",
+            // "/api/pedido/criar", Cliente que pode criar pedidos
+            "/api/pedido/atualizarStatus/{pedidoId}", // Importante: Admin atualiza status
             "/api/pedido/apagar/{pedidoId}",
 
             "/api/produto/atualizar/{produtoId}",
             "/api/produto/criar",
             "/api/produto/atualizarStatus/{produtoId}",
-            "/api/produto/listar",
-            "/api/produto/listarPorProdutoId/{produtoId}",
             "/api/produto/apagar/{produtoId}"
     };
 
@@ -89,11 +90,12 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //adicionado para funcionamento do swagger
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers(ENDPOINTS_SHARED).hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_CLIENTE")
                         .requestMatchers(ENDPOINTS_ADMIN).hasAuthority("ROLE_ADMINISTRADOR")
                         .requestMatchers(ENDPOINTS_CLIENT).hasAuthority("ROLE_CLIENTE")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
