@@ -38,7 +38,7 @@ public class PedidoService {
     public PedidoDTOResponse criarPedido(PedidoDTORequest pedidoDTOrequest) {
 
         Pedido pedido = new Pedido();
-        pedido.setStatus(pedidoDTOrequest.getStatus());
+        pedido.setStatus(0);
         pedido.setTaxa(pedidoDTOrequest.getTaxa());
         pedido.setSubtotal(pedidoDTOrequest.getSubtotal());
         pedido.setCriado(pedidoDTOrequest.getCriado());
