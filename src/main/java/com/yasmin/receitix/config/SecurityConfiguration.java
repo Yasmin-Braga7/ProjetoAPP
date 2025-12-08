@@ -52,7 +52,8 @@ public class SecurityConfiguration {
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
     public static final String [] ENDPOINTS_CLIENT = {
             "/api/pedido/criar", // O cliente cria o pedido
-            "/api/pedido/atualizar"
+            "/api/pedido/atualizar",
+            "/api/pedidoItem/criar"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de administrador
@@ -68,7 +69,6 @@ public class SecurityConfiguration {
             "/api/usuario/apagar/{usuarioId}",
 
             "/api/pedidoItem/listar", // Talvez o cliente precise ver itens do seu pedido? Se sim, mova para SHARED
-            "/api/pedidoItem/criar",
             "/api/pedidoItem/listarPorId/{pedidoItemId}",
             "/api/pedidoItem/apagar/{pedidoItemId}",
 

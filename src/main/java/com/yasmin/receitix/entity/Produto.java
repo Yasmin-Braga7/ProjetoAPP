@@ -31,6 +31,7 @@ public class Produto {
     @Column(name = "produto_status")
     private int status;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "produto")
     private PedidoItem pedidoItem;
 

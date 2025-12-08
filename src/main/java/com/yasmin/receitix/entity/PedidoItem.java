@@ -21,7 +21,6 @@ public class PedidoItem {
     private BigDecimal subtotal;
 
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
