@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -47,35 +48,45 @@ public class UsuarioService {
 
     // Método responsável por autenticar um usuário e retornar um token JWT
     public RecoveryJwtTokenDTO authenticateUser(LoginUserDTO loginUserDTO) {
-        // Cria um objeto de autenticação com o email e a senha do usuário
+        // 1. Cria o objeto de autenticação
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(loginUserDTO.email(), loginUserDTO.senha());
 
-        // Autentica o usuário com as credenciais fornecidas
+        // 2. Autentica (Se falhar, o Spring Security lança erro aqui)
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        // Obtém o objeto UserDetails do usuário autenticado
+        // 3. Pega os detalhes do usuário autenticado
         UsuarioDetailsImpl usuarioDetails = (UsuarioDetailsImpl) authentication.getPrincipal();
 
+        // 4. Prepara o objeto de resposta (Token + Dados do Usuário)
         RecoveryJwtTokenDTO recoveryJwtTokenDTO = new RecoveryJwtTokenDTO();
 
         UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse();
+
+        // Busca o usuário completo no banco para pegar todos os dados
         Usuario usuario = usuarioRepository.findByEmail(loginUserDTO.email());
 
-        // Mapeamento manual dos dados
+        // --- Mapeamento Manual dos Dados ---
         usuarioDTOResponse.setId(usuario.getId());
         usuarioDTOResponse.setNome(usuario.getNome());
         usuarioDTOResponse.setEmail(usuario.getEmail());
         usuarioDTOResponse.setTelefone(usuario.getTelefone());
         usuarioDTOResponse.setEndereco(usuario.getEndereco());
         usuarioDTOResponse.setStatus(usuario.getStatus());
-        //Retorna a imagem no login para o app já carregar a foto
+
+        // Retorna a imagem para o app já carregar a foto de perfil
         usuarioDTOResponse.setImagem(usuario.getImagem());
+
+        // [NOVO] Converte as Roles (Cargos) para uma lista de Strings (ex: "ROLE_ADMINISTRADOR")
+        // Isso é essencial para o redirecionamento no Frontend!
+        List<String> roles = usuario.getRoles().stream()
+                .map(role -> role.getName().name())
+                .collect(Collectors.toList());
+        usuarioDTOResponse.setRoles(roles);
 
         recoveryJwtTokenDTO.setUsuario(usuarioDTOResponse);
         recoveryJwtTokenDTO.setToken(jwtTokenService.generateToken(usuarioDetails));
 
-        // Gera um token JWT para o usuário autenticado
         return recoveryJwtTokenDTO;
     }
 

@@ -1,6 +1,7 @@
 package com.yasmin.receitix.DTO.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UsuarioDTOResponse {
     private int id;
@@ -20,6 +21,8 @@ public class UsuarioDTOResponse {
     private int status;
 
     private byte[] imagem;
+
+    private List<String> roles;
 
     public int getId() {
         return id;
@@ -91,5 +94,13 @@ public class UsuarioDTOResponse {
 
     public void setImagem(byte[] imagem) {
         this.imagem = imagem;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
