@@ -1,6 +1,7 @@
 package com.yasmin.receitix.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean; // IMPORTANTE: Import adicionado
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -84,6 +85,14 @@ public class SecurityConfiguration {
             "/api/produto/atualizarStatus/{produtoId}",
             "/api/produto/apagar/{produtoId}"
     };
+
+
+    @Bean
+    public FilterRegistrationBean<UserAuthenticationFilter> preventGlobalAuthenticationFilter(UserAuthenticationFilter filter) {
+        FilterRegistrationBean<UserAuthenticationFilter> registration = new FilterRegistrationBean<>(filter);
+        registration.setEnabled(false);
+        return registration;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
