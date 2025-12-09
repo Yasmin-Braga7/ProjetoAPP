@@ -72,9 +72,9 @@ public class PedidoController {
     // Adicione ao PedidoController.java
 
     @GetMapping("/dashboard")
-    @Operation(summary = "Dados do Dashboard", description = "Retorna faturamento e pedidos do mês atual")
-    public ResponseEntity<DashboardDTOResponse> dadosDashboard() {
-        return ResponseEntity.ok(pedidoService.obterDadosDashboard());
+    @Operation(summary = "Dados do Dashboard", description = "Retorna dados para o gráfico e resumo do mês")
+    public ResponseEntity<DashboardDTOResponse> getDashboardData() {
+        return ResponseEntity.ok(pedidoService.gerarDadosDashboard());
     }
 
     @DeleteMapping("/apagar/{pedidoId}")

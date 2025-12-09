@@ -16,10 +16,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.LinkedHashMap;
+
 import com.yasmin.receitix.DTO.response.DashboardDTOResponse;
 
 @Service
@@ -92,37 +91,39 @@ public class PedidoService {
         }
     }
 
-    public DashboardDTOResponse obterDadosDashboard() {
+    public DashboardDTOResponse gerarDadosDashboard() {
         LocalDateTime agora = LocalDateTime.now();
         LocalDateTime inicioMes = agora.with(TemporalAdjusters.firstDayOfMonth()).withHour(0).withMinute(0).withSecond(0);
         LocalDateTime fimMes = agora.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59);
 
-        List<Pedido> pedidosDoMes = pedidoRepository.encontrarPedidosNoPeriodo(inicioMes, fimMes);
+        List<Pedido> pedidos = pedidoRepository.findByCriadoBetween(inicioMes, fimMes);
 
         DashboardDTOResponse dto = new DashboardDTOResponse();
 
-        // 1. Quantidade total
-        dto.setQuantidadePedidosMes(pedidosDoMes.size());
-
-        // 2. Faturamento total (soma)
-        BigDecimal total = pedidosDoMes.stream()
+        // 1. Totais Gerais
+        dto.setTotalPedidos(pedidos.size());
+        BigDecimal faturamento = pedidos.stream()
                 .map(Pedido::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        dto.setFaturamentoTotalMes(total);
+        dto.setTotalFaturamento(faturamento);
 
-        // 3. Agrupamento por dia para o gráfico
-        // Formata a data como "dd/MM" e soma os valores daquele dia
+        // 2. Preparar dados do Gráfico (Agrupar por dia)
+        Map<String, Double> vendasPorDia = new TreeMap<>(); // TreeMap mantém ordem se usarmos chave ordenável, mas vamos formatar
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
 
-        Map<String, BigDecimal> vendasMap = pedidosDoMes.stream()
-                .sorted((p1, p2) -> p1.getCriado().compareTo(p2.getCriado())) // Garante ordem cronológica
-                .collect(Collectors.groupingBy(
-                        p -> p.getCriado().format(formatter),
-                        LinkedHashMap::new,
-                        Collectors.reducing(BigDecimal.ZERO, Pedido::getTotal, BigDecimal::add)
-                ));
+        // Inicializa o mapa para garantir que o gráfico não quebre se estiver vazio
+        // Opcional: preencher todos os dias do mês com 0, aqui faremos apenas dos dias com vendas para simplificar
 
-        dto.setVendasPorDia(vendasMap);
+        for (Pedido p : pedidos) {
+            String dia = p.getCriado().format(formatter);
+            double valor = p.getTotal().doubleValue();
+            vendasPorDia.put(dia, vendasPorDia.getOrDefault(dia, 0.0) + valor);
+        }
+
+        // Separar em listas para o DTO
+        dto.setLabelsGrafico(new ArrayList<>(vendasPorDia.keySet()));
+        dto.setDataGrafico(new ArrayList<>(vendasPorDia.values()));
 
         return dto;
     }

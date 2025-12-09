@@ -26,6 +26,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     // Adicione ao PedidoRepository.java
 
+    // Adicione dentro da interface PedidoRepository
     @Query("SELECT p FROM Pedido p WHERE p.criado BETWEEN :inicio AND :fim AND p.status >= 0")
-    List<Pedido> encontrarPedidosNoPeriodo(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
+    List<Pedido> findByCriadoBetween(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
 }

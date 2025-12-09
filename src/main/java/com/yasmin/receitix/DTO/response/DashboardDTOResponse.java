@@ -5,18 +5,21 @@ import java.util.List;
 import java.util.Map;
 
 public class DashboardDTOResponse {
-    private long quantidadePedidosMes;
-    private BigDecimal faturamentoTotalMes;
-    // Lista para o gráfico (Ex: "12/05" -> 150.00)
-    private Map<String, BigDecimal> vendasPorDia;
+    private BigDecimal totalFaturamento;
+    private long totalPedidos;
 
-    // Getters e Setters
-    public long getQuantidadePedidosMes() { return quantidadePedidosMes; }
-    public void setQuantidadePedidosMes(long quantidadePedidosMes) { this.quantidadePedidosMes = quantidadePedidosMes; }
+    private List<String> labelsGrafico;
+    private List<Double> dataGrafico;
 
-    public BigDecimal getFaturamentoTotalMes() { return faturamentoTotalMes; }
-    public void setFaturamentoTotalMes(BigDecimal faturamentoTotalMes) { this.faturamentoTotalMes = faturamentoTotalMes; }
+    public BigDecimal getTotalFaturamento() { return totalFaturamento; }
+    public void setTotalFaturamento(BigDecimal totalFaturamento) { this.totalFaturamento = totalFaturamento; }
 
-    public Map<String, BigDecimal> getVendasPorDia() { return vendasPorDia; }
-    public void setVendasPorDia(Map<String, BigDecimal> vendasPorDia) { this.vendasPorDia = vendasPorDia; }
+    public long getTotalPedidos() { return totalPedidos; }
+    public void setTotalPedidos(long totalPedidos) { this.totalPedidos = totalPedidos; }
+
+    public List<String> getLabelsGrafico() { return labelsGrafico; }
+    public void setLabelsGrafico(List<String> labelsGrafico) { this.labelsGrafico = labelsGrafico; }
+
+    public List<Double> getDataGrafico() { return dataGrafico; }
+    public void setDataGrafico(List<Double> dataGrafico) { this.dataGrafico = dataGrafico; }
 }
