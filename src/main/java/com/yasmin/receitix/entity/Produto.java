@@ -31,9 +31,9 @@ public class Produto {
     @Column(name = "produto_status")
     private int status;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "produto")
-    private PedidoItem pedidoItem;
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "produto")
+//    private PedidoItem pedidoItem;
 
     @Transient
     @JsonProperty("idCategoria")
@@ -117,13 +117,13 @@ public class Produto {
         this.status = status;
     }
 
-    public PedidoItem getPedidoItem() {
-        return pedidoItem;
-    }
-
-    public void setPedidoItem(PedidoItem pedidoItem) {
-        this.pedidoItem = pedidoItem;
-    }
+//    public PedidoItem getPedidoItem() {
+//        return pedidoItem;
+//    }
+//
+//    public void setPedidoItem(PedidoItem pedidoItem) {
+//        this.pedidoItem = pedidoItem;
+//    }
 
     public Categoria getCategoria() {
         return categoria;

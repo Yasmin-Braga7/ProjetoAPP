@@ -51,7 +51,8 @@ public class SecurityConfiguration {
             "/api/usuario/atualizar/{usuarioId}",
             "/api/usuario/foto/upload/{usuarioId}",
             "/api/usuario/foto/remover/{usuarioId}",
-            "/api/pedido/atualizarStatus/{pedidoId}"
+            "/api/pedido/atualizarStatus/{pedidoId}",
+            "/api/pedidoItem/listar",
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
@@ -72,7 +73,7 @@ public class SecurityConfiguration {
             "/api/usuario/listar",
             "/api/usuario/apagar/{usuarioId}",
 
-            "/api/pedidoItem/listar", // Talvez o cliente precise ver itens do seu pedido? Se sim, mova para SHARED
+             // Talvez o cliente precise ver itens do seu pedido? Se sim, mova para SHARED
             "/api/pedidoItem/listarPorId/{pedidoItemId}",
             "/api/pedidoItem/apagar/{pedidoItemId}",
 
