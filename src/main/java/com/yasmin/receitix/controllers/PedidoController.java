@@ -73,9 +73,18 @@ public class PedidoController {
 
     @GetMapping("/dashboard")
     @Operation(summary = "Dados do Dashboard", description = "Retorna dados para o gráfico e resumo do mês")
-    public ResponseEntity<DashboardDTOResponse> getDashboardData() {
-        return ResponseEntity.ok(pedidoService.gerarDadosDashboard());
+    public ResponseEntity<DashboardDTOResponse> getDashboardData(
+            @RequestParam(required = false) Integer mes,
+            @RequestParam(required = false) Integer ano
+    ) {
+        return ResponseEntity.ok(pedidoService.gerarDadosDashboard(mes, ano));
     }
+
+    @GetMapping("/pedido/anos")
+    public ResponseEntity<Integer> getAnoMinimo() {
+        return ResponseEntity.ok(pedidoService.getAnoMaisAntigo());
+    }
+
 
     @DeleteMapping("/apagar/{pedidoId}")
     @Operation(summary = "Apagar registro de pedido", description = "Endpoint para apagar um pedido pelo id")

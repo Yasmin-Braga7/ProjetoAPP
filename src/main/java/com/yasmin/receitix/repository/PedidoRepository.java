@@ -26,4 +26,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
     @Query("SELECT p FROM Pedido p WHERE p.criado BETWEEN :inicio AND :fim")
     List<Pedido> findByCriadoBetween(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
+
+    @Query("SELECT MIN(YEAR(p.criado)) FROM Pedido p")
+    Integer findAnoMaisAntigo();
+
 }

@@ -130,21 +130,24 @@ public class PedidoService {
 //        return dto;
 //    }
 
-    public DashboardDTOResponse gerarDadosDashboard() {
+    public DashboardDTOResponse gerarDadosDashboard(Integer mes, Integer ano) {
 
-        // 🔹 1. Calcular início e fim do mês atual
         LocalDate hoje = LocalDate.now();
-        LocalDateTime inicioMes = hoje.withDayOfMonth(1).atStartOfDay();
-        LocalDateTime fimMes = hoje.withDayOfMonth(hoje.lengthOfMonth()).atTime(23, 59, 59);
 
-        // 🔹 2. Buscar pedidos SOMENTE do mês atual
+        int mesFinal = (mes != null ? mes : hoje.getMonthValue());
+        int anoFinal = (ano != null ? ano : hoje.getYear());
+
+        LocalDate inicio = LocalDate.of(anoFinal, mesFinal, 1);
+        LocalDate fim = inicio.withDayOfMonth(inicio.lengthOfMonth());
+
+        LocalDateTime inicioMes = inicio.atStartOfDay();
+        LocalDateTime fimMes = fim.atTime(23, 59, 59);
+
+        // Busca do período solicitado
         List<Pedido> pedidos = pedidoRepository.findByCriadoBetween(inicioMes, fimMes);
-
-        System.out.println("DEBUG: Pedidos encontrados no mês: " + pedidos.size());
 
         DashboardDTOResponse dto = new DashboardDTOResponse();
 
-        // 🔹 3. Totais do mês
         dto.setTotalPedidos(pedidos.size());
 
         BigDecimal faturamento = pedidos.stream()
@@ -152,17 +155,18 @@ public class PedidoService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         dto.setTotalFaturamento(faturamento);
 
-        // 🔹 4. Montar dados do gráfico (vendas por dia)
+        // Gráfico
         Map<String, Double> vendasPorDia = new TreeMap<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM");
 
         for (Pedido p : pedidos) {
             if (p.getCriado() != null) {
-                String dia = p.getCriado().format(formatter);
+                String dia = p.getCriado().format(fmt);
                 double valor = p.getTotal().doubleValue();
-
-                vendasPorDia.put(dia,
-                        vendasPorDia.getOrDefault(dia, 0.0) + valor);
+                vendasPorDia.put(
+                        dia,
+                        vendasPorDia.getOrDefault(dia, 0.0) + valor
+                );
             }
         }
 
@@ -171,6 +175,13 @@ public class PedidoService {
 
         return dto;
     }
+
+    public Integer getAnoMaisAntigo() {
+        Integer ano = pedidoRepository.findAnoMaisAntigo();
+        return (ano == null ? LocalDate.now().getYear() : ano);
+    }
+
+
     public void apagarPedido(Integer pedidoId){
         pedidoRepository.apagadoLogicoPedido(pedidoId);
     }
