@@ -48,9 +48,11 @@ public class SecurityConfiguration {
             "/api/pedido/listarPorPedidoId/{pedidoId}",
             "/api/usuario/atualizar/{usuarioId}",// Talvez o admin também precise atualizar usuários? Se não, mova para CLIENT
             "/api/pedido/atualizarStatus/{pedidoId}",
+            "/api/usuario/listarPorUsuarioId/{usuarioId}", // <--- O IMPORTANTE AGORA
             "/api/usuario/atualizar/{usuarioId}",
             "/api/usuario/foto/upload/{usuarioId}",
-            "/api/usuario/foto/remover/{usuarioId}"
+            "/api/usuario/foto/remover/{usuarioId}",
+            "/api/pedido/atualizarStatus/{pedidoId}"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
@@ -69,7 +71,6 @@ public class SecurityConfiguration {
 
             "/api/usuario/atualizarStatus",
             "/api/usuario/listar",
-            "/api/usuario/listarPorUsuarioId/{usuarioId}",
             "/api/usuario/apagar/{usuarioId}",
 
             "/api/pedidoItem/listar", // Talvez o cliente precise ver itens do seu pedido? Se sim, mova para SHARED
