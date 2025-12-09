@@ -46,7 +46,8 @@ public class SecurityConfiguration {
             "/api/categoria/listarPorCategoriaId/{categoriaId}",
             "/api/pedido/listar",
             "/api/pedido/listarPorPedidoId/{pedidoId}",
-            "/api/usuario/atualizar/{usuarioId}" // Talvez o admin também precise atualizar usuários? Se não, mova para CLIENT
+            "/api/usuario/atualizar/{usuarioId}",// Talvez o admin também precise atualizar usuários? Se não, mova para CLIENT
+            "/api/pedido/atualizarStatus/{pedidoId}"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
@@ -73,8 +74,7 @@ public class SecurityConfiguration {
             "/api/pedidoItem/apagar/{pedidoItemId}",
 
             "/api/pedido/atualizar/{pedidoId}",
-            // "/api/pedido/criar", Cliente que pode criar pedidos
-            "/api/pedido/atualizarStatus/{pedidoId}", // Importante: Admin atualiza status
+            // "/api/pedido/criar", Cliente que pode criar pedido
             "/api/pedido/apagar/{pedidoId}",
 
             "/api/produto/atualizar/{produtoId}",
