@@ -12,7 +12,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.LinkedHashMap;
+import com.yasmin.receitix.DTO.response.DashboardDTOResponse;
 
 @Service
 public class PedidoService {
@@ -82,6 +90,41 @@ public class PedidoService {
         else{
             return null;
         }
+    }
+
+    public DashboardDTOResponse obterDadosDashboard() {
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime inicioMes = agora.with(TemporalAdjusters.firstDayOfMonth()).withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime fimMes = agora.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59);
+
+        List<Pedido> pedidosDoMes = pedidoRepository.encontrarPedidosNoPeriodo(inicioMes, fimMes);
+
+        DashboardDTOResponse dto = new DashboardDTOResponse();
+
+        // 1. Quantidade total
+        dto.setQuantidadePedidosMes(pedidosDoMes.size());
+
+        // 2. Faturamento total (soma)
+        BigDecimal total = pedidosDoMes.stream()
+                .map(Pedido::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        dto.setFaturamentoTotalMes(total);
+
+        // 3. Agrupamento por dia para o gráfico
+        // Formata a data como "dd/MM" e soma os valores daquele dia
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+
+        Map<String, BigDecimal> vendasMap = pedidosDoMes.stream()
+                .sorted((p1, p2) -> p1.getCriado().compareTo(p2.getCriado())) // Garante ordem cronológica
+                .collect(Collectors.groupingBy(
+                        p -> p.getCriado().format(formatter),
+                        LinkedHashMap::new,
+                        Collectors.reducing(BigDecimal.ZERO, Pedido::getTotal, BigDecimal::add)
+                ));
+
+        dto.setVendasPorDia(vendasMap);
+
+        return dto;
     }
 
     public void apagarPedido(Integer pedidoId){

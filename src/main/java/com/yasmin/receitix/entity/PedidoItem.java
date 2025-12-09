@@ -21,7 +21,7 @@ public class PedidoItem {
     private BigDecimal subtotal;
 
 
-    @ManyToOne // <--- AQUI É A MUDANÇA
+    @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;
 

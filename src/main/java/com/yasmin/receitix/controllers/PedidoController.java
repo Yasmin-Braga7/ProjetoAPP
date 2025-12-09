@@ -2,6 +2,7 @@ package com.yasmin.receitix.controllers;
 
 import com.yasmin.receitix.DTO.request.PedidoDTORequest;
 import com.yasmin.receitix.DTO.request.PedidoDTOUpdateRequest;
+import com.yasmin.receitix.DTO.response.DashboardDTOResponse;
 import com.yasmin.receitix.DTO.response.PedidoDTOResponse;
 import com.yasmin.receitix.DTO.response.PedidoDTOUpdateResponse;
 import com.yasmin.receitix.entity.Pedido;
@@ -66,6 +67,14 @@ public class PedidoController {
             @PathVariable("pedidoId") Integer pedidoId,
             @RequestBody PedidoDTOUpdateRequest pedidoDTOUpdateRequest){
         return  ResponseEntity.ok(pedidoService.atualizarStatusPedido(pedidoId, pedidoDTOUpdateRequest));
+    }
+
+    // Adicione ao PedidoController.java
+
+    @GetMapping("/dashboard")
+    @Operation(summary = "Dados do Dashboard", description = "Retorna faturamento e pedidos do mês atual")
+    public ResponseEntity<DashboardDTOResponse> dadosDashboard() {
+        return ResponseEntity.ok(pedidoService.obterDadosDashboard());
     }
 
     @DeleteMapping("/apagar/{pedidoId}")
