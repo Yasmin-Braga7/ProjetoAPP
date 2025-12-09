@@ -48,6 +48,7 @@ public class PedidoService {
         pedido.setStatus(0);
         pedido.setTaxa(pedidoDTOrequest.getTaxa());
         pedido.setSubtotal(pedidoDTOrequest.getSubtotal());
+        pedido.setCriado(LocalDateTime.now());
         pedido.setCriado(pedidoDTOrequest.getCriado());
         pedido.setTotal(pedidoDTOrequest.getTotal());
         pedido.setUsuario(usuarioRepository.obterUsuarioPeloId(pedidoDTOrequest.getIdUsuario()));
