@@ -46,8 +46,6 @@ public class SecurityConfiguration {
             "/api/categoria/listarPorCategoriaId/{categoriaId}",
             "/api/pedido/listar",
             "/api/pedido/listarPorPedidoId/{pedidoId}",
-            "/api/usuario/atualizar/{usuarioId}",// Talvez o admin também precise atualizar usuários? Se não, mova para CLIENT
-            "/api/pedido/atualizarStatus/{pedidoId}",
             "/api/usuario/listarPorUsuarioId/{usuarioId}",
             "/api/usuario/atualizar/{usuarioId}",
             "/api/usuario/foto/upload/{usuarioId}",
