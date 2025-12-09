@@ -33,6 +33,7 @@ public class SecurityConfiguration {
             "/api/v1/images/foto/upload/{idProduto}",
             "/api/v1/images/foto/{idProdutofoto}",
             "/api/v1/images/{idProdutofoto}",
+            "/index.html",
             "/",
             "/imagens/**",
             "/imagens/*",
