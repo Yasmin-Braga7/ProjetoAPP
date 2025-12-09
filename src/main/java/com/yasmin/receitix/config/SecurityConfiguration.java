@@ -47,7 +47,10 @@ public class SecurityConfiguration {
             "/api/pedido/listar",
             "/api/pedido/listarPorPedidoId/{pedidoId}",
             "/api/usuario/atualizar/{usuarioId}",// Talvez o admin também precise atualizar usuários? Se não, mova para CLIENT
-            "/api/pedido/atualizarStatus/{pedidoId}"
+            "/api/pedido/atualizarStatus/{pedidoId}",
+            "/api/usuario/atualizar/{usuarioId}",
+            "/api/usuario/foto/upload/{usuarioId}",
+            "/api/usuario/foto/remover/{usuarioId}"
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
