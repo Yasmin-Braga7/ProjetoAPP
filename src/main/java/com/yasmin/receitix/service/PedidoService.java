@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 import com.yasmin.receitix.DTO.response.DashboardDTOResponse;
 
@@ -92,37 +92,80 @@ public class PedidoService {
         }
     }
 
-    public DashboardDTOResponse gerarDadosDashboard() {
-        LocalDateTime agora = LocalDateTime.now();
-        LocalDateTime inicioMes = agora.with(TemporalAdjusters.firstDayOfMonth()).withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime fimMes = agora.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59);
+//    public DashboardDTOResponse gerarDadosDashboard() {
+//        LocalDateTime agora = LocalDateTime.now();
+//        LocalDateTime inicioMes = agora.with(TemporalAdjusters.firstDayOfMonth()).withHour(0).withMinute(0).withSecond(0);
+//        LocalDateTime fimMes = agora.with(TemporalAdjusters.lastDayOfMonth()).withHour(23).withMinute(59).withSecond(59);
+//
+//        List<Pedido> pedidos = pedidoRepository.findByCriadoBetween(inicioMes, fimMes);
+//
+//        DashboardDTOResponse dto = new DashboardDTOResponse();
+//
+//        // 1. Totais Gerais
+//        dto.setTotalPedidos(pedidos.size());
+//        BigDecimal faturamento = pedidos.stream()
+//                .map(Pedido::getTotal)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//        dto.setTotalFaturamento(faturamento);
+//
+//        // 2. Preparar dados do Gráfico (Agrupar por dia)
+//        Map<String, Double> vendasPorDia = new TreeMap<>(); // TreeMap mantém ordem se usarmos chave ordenável, mas vamos formatar
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
+//
+//        // Inicializa o mapa para garantir que o gráfico não quebre se estiver vazio
+//        // Opcional: preencher todos os dias do mês com 0, aqui faremos apenas dos dias com vendas para simplificar
+//
+//        for (Pedido p : pedidos) {
+//            String dia = p.getCriado().format(formatter);
+//            double valor = p.getTotal().doubleValue();
+//            vendasPorDia.put(dia, vendasPorDia.getOrDefault(dia, 0.0) + valor);
+//        }
+//
+//        // Separar em listas para o DTO
+//        dto.setLabelsGrafico(new ArrayList<>(vendasPorDia.keySet()));
+//        dto.setDataGrafico(new ArrayList<>(vendasPorDia.values()));
+//
+//        return dto;
+//    }
 
-        List<Pedido> pedidos = pedidoRepository.findByCriadoBetween(inicioMes, fimMes);
+    public DashboardDTOResponse gerarDadosDashboard() {
+        // NÃO precisamos mais calcular datas de inicio e fim
+        // LocalDateTime agora = LocalDateTime.now();
+        // ... (pode apagar ou comentar as linhas de data)
+
+        // --- ALTERAÇÃO RADICAL AQUI ---
+        // Em vez de buscar por periodo, vamos buscar TUDO o que tem no banco.
+        // O método findAll() já existe nativo no JpaRepository.
+        List<Pedido> pedidos = pedidoRepository.findAll();
+
+        // Adicione este print para ver no console do IntelliJ quantos pedidos ele achou
+        System.out.println("DEBUG: Encontrados " + pedidos.size() + " pedidos no total.");
 
         DashboardDTOResponse dto = new DashboardDTOResponse();
 
         // 1. Totais Gerais
         dto.setTotalPedidos(pedidos.size());
+
+        // O resto do código continua igual...
         BigDecimal faturamento = pedidos.stream()
                 .map(Pedido::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         dto.setTotalFaturamento(faturamento);
 
-        // 2. Preparar dados do Gráfico (Agrupar por dia)
-        Map<String, Double> vendasPorDia = new TreeMap<>(); // TreeMap mantém ordem se usarmos chave ordenável, mas vamos formatar
-
+        // 2. Preparar dados do Gráfico
+        Map<String, Double> vendasPorDia = new TreeMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
 
-        // Inicializa o mapa para garantir que o gráfico não quebre se estiver vazio
-        // Opcional: preencher todos os dias do mês com 0, aqui faremos apenas dos dias com vendas para simplificar
-
         for (Pedido p : pedidos) {
-            String dia = p.getCriado().format(formatter);
-            double valor = p.getTotal().doubleValue();
-            vendasPorDia.put(dia, vendasPorDia.getOrDefault(dia, 0.0) + valor);
+            // Pequena proteção caso algum pedido antigo esteja sem data
+            if(p.getCriado() != null) {
+                String dia = p.getCriado().format(formatter);
+                double valor = p.getTotal().doubleValue();
+                vendasPorDia.put(dia, vendasPorDia.getOrDefault(dia, 0.0) + valor);
+            }
         }
 
-        // Separar em listas para o DTO
         dto.setLabelsGrafico(new ArrayList<>(vendasPorDia.keySet()));
         dto.setDataGrafico(new ArrayList<>(vendasPorDia.values()));
 
