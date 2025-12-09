@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
@@ -130,39 +131,38 @@ public class PedidoService {
 //    }
 
     public DashboardDTOResponse gerarDadosDashboard() {
-        // NÃO precisamos mais calcular datas de inicio e fim
-        // LocalDateTime agora = LocalDateTime.now();
-        // ... (pode apagar ou comentar as linhas de data)
 
-        // --- ALTERAÇÃO RADICAL AQUI ---
-        // Em vez de buscar por periodo, vamos buscar TUDO o que tem no banco.
-        // O método findAll() já existe nativo no JpaRepository.
-        List<Pedido> pedidos = pedidoRepository.findAll();
+        // 🔹 1. Calcular início e fim do mês atual
+        LocalDate hoje = LocalDate.now();
+        LocalDateTime inicioMes = hoje.withDayOfMonth(1).atStartOfDay();
+        LocalDateTime fimMes = hoje.withDayOfMonth(hoje.lengthOfMonth()).atTime(23, 59, 59);
 
-        // Adicione este print para ver no console do IntelliJ quantos pedidos ele achou
-        System.out.println("DEBUG: Encontrados " + pedidos.size() + " pedidos no total.");
+        // 🔹 2. Buscar pedidos SOMENTE do mês atual
+        List<Pedido> pedidos = pedidoRepository.findByCriadoBetween(inicioMes, fimMes);
+
+        System.out.println("DEBUG: Pedidos encontrados no mês: " + pedidos.size());
 
         DashboardDTOResponse dto = new DashboardDTOResponse();
 
-        // 1. Totais Gerais
+        // 🔹 3. Totais do mês
         dto.setTotalPedidos(pedidos.size());
 
-        // O resto do código continua igual...
         BigDecimal faturamento = pedidos.stream()
                 .map(Pedido::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         dto.setTotalFaturamento(faturamento);
 
-        // 2. Preparar dados do Gráfico
+        // 🔹 4. Montar dados do gráfico (vendas por dia)
         Map<String, Double> vendasPorDia = new TreeMap<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
 
         for (Pedido p : pedidos) {
-            // Pequena proteção caso algum pedido antigo esteja sem data
-            if(p.getCriado() != null) {
+            if (p.getCriado() != null) {
                 String dia = p.getCriado().format(formatter);
                 double valor = p.getTotal().doubleValue();
-                vendasPorDia.put(dia, vendasPorDia.getOrDefault(dia, 0.0) + valor);
+
+                vendasPorDia.put(dia,
+                        vendasPorDia.getOrDefault(dia, 0.0) + valor);
             }
         }
 
@@ -171,7 +171,6 @@ public class PedidoService {
 
         return dto;
     }
-
     public void apagarPedido(Integer pedidoId){
         pedidoRepository.apagadoLogicoPedido(pedidoId);
     }
