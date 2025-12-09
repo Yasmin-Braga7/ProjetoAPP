@@ -17,7 +17,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -59,12 +61,16 @@ public class UsuarioService {
 
         UsuarioDTOResponse usuarioDTOResponse = new UsuarioDTOResponse();
         Usuario usuario = usuarioRepository.findByEmail(loginUserDTO.email());
+
+        // Mapeamento manual dos dados
         usuarioDTOResponse.setId(usuario.getId());
         usuarioDTOResponse.setNome(usuario.getNome());
         usuarioDTOResponse.setEmail(usuario.getEmail());
         usuarioDTOResponse.setTelefone(usuario.getTelefone());
         usuarioDTOResponse.setEndereco(usuario.getEndereco());
         usuarioDTOResponse.setStatus(usuario.getStatus());
+        //Retorna a imagem no login para o app já carregar a foto
+        usuarioDTOResponse.setImagem(usuario.getImagem());
 
         recoveryJwtTokenDTO.setUsuario(usuarioDTOResponse);
         recoveryJwtTokenDTO.setToken(jwtTokenService.generateToken(usuarioDetails));
@@ -106,6 +112,12 @@ public class UsuarioService {
             usuario.setCriado(java.time.LocalDateTime.now());
         }
         usuario.setStatus(1);
+
+        // Se vier imagem na criação
+        if(usuarioDTORequest.getImagem() != null){
+            usuario.setImagem(usuarioDTORequest.getImagem());
+        }
+
         Usuario usuarioSave = this.usuarioRepository.save(usuario);
         UsuarioDTOResponse usuarioDTOResponse = modelMapper.map(usuarioSave, UsuarioDTOResponse.class);
         return usuarioDTOResponse;
@@ -121,32 +133,55 @@ public class UsuarioService {
             usuario.setEmail(usuarioDTORequest.getEmail());
             usuario.setTelefone(usuarioDTORequest.getTelefone());
             usuario.setEndereco(usuarioDTORequest.getEndereco());
-            usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioDTORequest.getSenha()));
+
+            // Verifica se a senha foi enviada antes de reencodar (evita mudar senha sem querer)
+            if (usuarioDTORequest.getSenha() != null && !usuarioDTORequest.getSenha().isEmpty()) {
+                usuario.setSenha(securityConfiguration.passwordEncoder().encode(usuarioDTORequest.getSenha()));
+            }
+
             usuario.setCriado(usuarioDTORequest.getCriado());
             usuario.setStatus(usuarioDTORequest.getStatus());
 
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
             Usuario tempResponse = usuarioRepository.save(usuario);
 
             return modelMapper.map(tempResponse, UsuarioDTOResponse.class);
         }else {
             return null;
         }
-
     }
 
+    // Parte da imagem de usuario !!
+
+    public UsuarioDTOResponse atualizarFotoPerfil(Integer usuarioId, MultipartFile arquivo) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + usuarioId));
+
+        try {
+            //
+            usuario.setImagem(arquivo.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao processar a imagem do perfil: " + e.getMessage());
+        }
+
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        return modelMapper.map(usuarioSalvo, UsuarioDTOResponse.class);
+    }
+
+    public void removerFotoPerfil(Integer usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + usuarioId));
+
+        usuario.setImagem(null);
+        usuarioRepository.save(usuario);
+    }
+
+    // ---------------------------------
+
     public UsuarioDTOUpdateResponse atualizarStatusUsuario(Integer usuarioId, UsuarioDTOUpdateRequest usuarioDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizar
         Usuario usuario = this.listarPorUsuarioId(usuarioId);
 
-        //se encontra o registro a ser atualizado
         if (usuario != null) {
-            //atualizamos unicamente o campo de status
             usuario.setStatus(usuarioDTOUpdateRequest.getStatus());
-
-            //com o objeto no formato correto tipo "participante" o comando "save" salva
-            // no banco de dados o objeto atualizado
             Usuario tempResponse = usuarioRepository.save(usuario);
             return modelMapper.map(tempResponse, UsuarioDTOUpdateResponse.class);
         }

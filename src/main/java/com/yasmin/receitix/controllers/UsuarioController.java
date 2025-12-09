@@ -12,8 +12,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -61,6 +63,22 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizarUsuario(usuarioId, usuarioDTORequest));
     }
 
+    // Parte da imagem do usuario !!
+
+    @PatchMapping(value = "/foto/upload/{usuarioId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Atualizar foto de perfil", description = "Endpoint para fazer upload ou atualizar a foto do usuário")
+    public ResponseEntity<UsuarioDTOResponse> atualizarFoto(
+            @PathVariable("usuarioId") Integer usuarioId,
+            @RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok(usuarioService.atualizarFotoPerfil(usuarioId, file));
+    }
+
+    @DeleteMapping("/foto/remover/{usuarioId}")
+    @Operation(summary = "Remover foto de perfil", description = "Endpoint para apagar a foto do usuário sem excluir a conta")
+    public ResponseEntity<Void> removerFoto(@PathVariable("usuarioId") Integer usuarioId) {
+        usuarioService.removerFotoPerfil(usuarioId);
+        return ResponseEntity.noContent().build();
+    }
 
     @PatchMapping("/atualizarStatus/{usuarioId}")
     @Operation(summary = "Atualizar campo status do usuario", description = "Endpoint para atualizar o status do usuario")
