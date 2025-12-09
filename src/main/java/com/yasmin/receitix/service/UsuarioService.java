@@ -175,7 +175,6 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    // ---------------------------------
 
     public UsuarioDTOUpdateResponse atualizarStatusUsuario(Integer usuarioId, UsuarioDTOUpdateRequest usuarioDTOUpdateRequest) {
         Usuario usuario = this.listarPorUsuarioId(usuarioId);
