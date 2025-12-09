@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App DaniCake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FFF0F5 0%, #FCE7F3 100%);
+            min-height: 100vh;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #BE185D;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #6B7280;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .content {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.15);
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #EC4899, #DB2777, #BE185D);
+        }
+
+        h2 {
+            color: #BE185D;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h3 {
+            color: #9D174D;
+            margin: 20px 0 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        p {
+            margin-bottom: 12px;
+            color: #1F2937;
+            font-size: 0.95rem;
+        }
+
+        /* Estilo da barra de download (antigo botão) */
+        .download-banner {
+            display: block;
+            /* Mesmo gradiente rosa */
+            background: linear-gradient(to right, #EC4899, #DB2777);
+            color: #FFFFFF;
+            padding: 16px 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 40px 0 20px; /* Margem maior em cima para separar */
+            font-weight: 600;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.5px;
+            /* Removi o efeito de hover/zoom e o cursor pointer */
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: #FDF2F8;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .feature-card h4 {
+            color: #9D174D;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: #1F2937;
+            margin: 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(236, 72, 153, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #1F2937;
+        }
+
+        .tech-icon {
+            color: #EC4899;
+            font-weight: bold;
+        }
+
+        .warning-alert {
+            background: #FFF1F2;
+            border-left: 4px solid #F43F5E;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .warning-icon {
+            color: #E11D48;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .warning-content h4 {
+            color: #9F1239;
+            margin-bottom: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .warning-content p {
+            color: #9F1239;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Estilos do QR Code (trazidos da outra tela) */
+        .qrcode-section {
+            text-align: center;
+            margin: 0 0 30px;
+            padding: 25px;
+            background: #FDF2F8;
+            border-radius: 12px;
+            border: 2px dashed #F472B6;
+        }
+
+        .qrcode-container {
+            display: inline-block;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin: 15px 0;
+            border: 2px solid #EC4899;
+        }
+
+        .qrcode-container img {
+            width: 220px;
+            height: 220px;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .scan-instruction {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .qr-fallback {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .app-preview {
+            margin: 30px 0;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .screenshot-card {
+            background: #F8FAFC;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .screenshot-content {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screenshot-image {
+            width: 100%;
+            height: 160px;
+            object-fit: contain;
+            display: block;
+            border-radius: 10px;
+            padding: 5px;
+            background: white;
+        }
+
+        .image-description {
+            padding: 12px;
+            text-align: center;
+            color: #6B7280;
+            font-size: 0.85rem;
+            background: #FDF2F8;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid, .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+            .tech-stack {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header h1 { font-size: 1.9rem; }
+            .content { padding: 20px; }
+            .screenshot-image { height: 170px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 15px 10px; }
+            .header h1 { font-size: 1.7rem; }
+            .content { padding: 15px; }
+            .warning-alert { flex-direction: column; text-align: center; }
+            .screenshot-image { height: 150px; }
+            .qrcode-container img { width: 180px; height: 180px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🍰 App DaniCake</h1>
+        <p>Seus bolos favoritos na palma da mão</p>
+    </div>
+
+    <div class="content">
+        <div class="warning-alert">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-content">
+                <h4>Versão de Testes</h4>
+                <p>Este aplicativo é uma versão de demonstração para o portfólio de Desenvolvimento de Sistemas.</p>
+            </div>
+        </div>
+
+        <h2>📱 Sobre o Aplicativo</h2>
+        <p>O App DaniCake foi desenvolvido para facilitar a encomenda de bolos e doces deliciosos, oferecendo uma experiência doce e moderna.</p>
+
+        <div class="app-preview">
+            <h3>📸 Preview do Aplicativo</h3>
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/Splash.jpeg" alt="Tela de Abertura" class="screenshot-image">
+                        <div class="image-description">Bem-vindo ao mundo doce</div>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/Login.jpeg" alt="Tela de Login" class="screenshot-image">
+                        <div class="image-description">Faça seu login</div>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/Resumofinanceiro.jpeg" alt="Catálogo" class="screenshot-image">
+                        <div class="image-description">Escolha seus bolos favoritos</div>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-content">
+                        <img src="./images/Novatransacao.jpeg" alt="Carrinho" class="screenshot-image">
+                        <div class="image-description">Finalize sua encomenda</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>🚀 Funcionalidades Principais</h3>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h4>Catálogo Delicioso</h4>
+                <p>Visualize fotos e detalhes de todos os bolos e doces disponíveis.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Encomenda Fácil</h4>
+                <p>Faça seus pedidos de forma rápida e fácil.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Carrinho Inteligente</h4>
+                <p>Gerencie seus itens e veja o total da compra em tempo real.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Acompanhe seu Pedido</h4>
+                <p>Saiba exatamente quando seu bolo estará pronto.</p>
+            </div>
+            <div class="feature-card">
+                <h4>Encomenda de bolos decorados</h4>
+                <p>Em breve vai ter a opção de fazer uma encomendar de bolos decorados para festa e encomenda de docinhos cento( Tradicionais e Gourmet ).</p>
+            </div>
+        </div>
+
+        <h3>🛠 Tecnologias Utilizadas</h3>
+        <div class="tech-stack">
+            <div class="tech-item"><span class="tech-icon">⚛️</span> <span>React Native</span></div>
+            <div class="tech-item"><span class="tech-icon">🌱</span> <span>Spring Boot</span></div>
+            <div class="tech-item"><span class="tech-icon">🗄️</span> <span>PostgreSQL/MySQL</span></div>
+            <div class="tech-item"><span class="tech-icon">🎨</span> <span>TypeScript</span></div>
+        </div>
+
+        <div class="download-banner">
+            <i class="fas fa-download"></i> Instalar App (APK)
+        </div>
+
+        <div class="qrcode-section">
+            <p style="margin-bottom: 15px; color: #9D174D; font-weight: 500;">Escaneie o código abaixo com a câmera do seu celular:</p>
+
+            <div class="qrcode-container">
+                <img id="qrcode-image" src="./images/qrcodeApk.png" alt="QR Code para baixar App DaniCake">
+            </div>
+
+            <div class="scan-instruction">
+                <i class="fas fa-camera"></i>
+                <span>Aponte a câmera para ler</span>
+            </div>
+
+            <div id="qr-fallback" class="qr-fallback">
+                <!-- <div style="margin: 15px 0;">
+                    <i class="fas fa-exclamation-triangle" style="color: #f59e0b; font-size: 24px; margin-bottom: 10px;"></i>
+                    <p style="color: #666; margin-bottom: 15px;">QR Code não carregado. Clique no botão abaixo:</p>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <script>
+    // Substitua pela URL real do seu APK no GitHub
+    const APK_URL = "https://github.com/SeuUsuario/SeuRepositorio/releases/download/v1.0.0/app.apk";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const qrImage = document.getElementById('qrcode-image');
+        const qrFallback = document.getElementById('qr-fallback');
+
+        // Tratamento de erro se a imagem do QR Code não carregar
+        qrImage.onerror = function() {
+            console.log("Erro ao carregar QR Code");
+            qrImage.style.display = 'none'; // Esconde a imagem quebrada
+            qrFallback.style.display = 'block'; // Mostra o aviso
+
+            const qrContainer = document.querySelector('.qrcode-container');
+            // Insere um botão de download direto como alternativa
+            qrContainer.innerHTML = `
+                <div style="padding: 20px; text-align: center;">
+                    <a href="${APK_URL}"
+                       style="background: #EC4899; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block; font-weight: 600;">
+                        <i class="fas fa-download"></i> Download Direto APK
+                    </a>
+                </div>
+            `;
+        };
+
+        // Permite clicar na imagem para baixar também (opcional)
+        qrImage.addEventListener('click', function() {
+            window.open(APK_URL, '_blank');
+        });
+    }); -->
+</script>
+</body>
+</html>
