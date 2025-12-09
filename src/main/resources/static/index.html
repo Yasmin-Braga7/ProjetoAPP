@@ -93,16 +93,15 @@
             font-size: 0.95rem;
         }
 
-        /* Estilo da barra de download (antigo botão) */
-        .download-banner {
+        /* Estilo do Botão de Download */
+        .download-btn {
             display: block;
-            /* Mesmo gradiente rosa */
             background: linear-gradient(to right, #EC4899, #DB2777);
             color: #FFFFFF;
             padding: 16px 25px;
             border-radius: 10px;
             text-align: center;
-            margin: 40px 0 20px; /* Margem maior em cima para separar */
+            margin: 40px 0 20px;
             font-weight: 600;
             font-size: 1.2rem;
             box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
@@ -110,7 +109,18 @@
             overflow: hidden;
             font-family: 'Poppins', sans-serif;
             letter-spacing: 0.5px;
-            /* Removi o efeito de hover/zoom e o cursor pointer */
+            text-decoration: none; /* Remove o sublinhado do link */
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Efeito suave ao passar o mouse (sem zoom exagerado) */
+        .download-btn:hover {
+            box-shadow: 0 6px 15px rgba(236, 72, 153, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .download-btn:active {
+            transform: translateY(1px);
         }
 
         .features-grid {
@@ -201,7 +211,7 @@
             font-size: 0.9rem;
         }
 
-        /* Estilos do QR Code (trazidos da outra tela) */
+        /* Estilos do QR Code */
         .qrcode-section {
             text-align: center;
             margin: 0 0 30px;
@@ -222,8 +232,8 @@
         }
 
         .qrcode-container img {
-            width: 220px;
-            height: 220px;
+            width: 300px;
+            height: 300px;
             border-radius: 8px;
             display: block;
         }
@@ -374,7 +384,7 @@
             </div>
             <div class="feature-card">
                 <h4>Encomenda Fácil</h4>
-                <p>Faça seus pedidos de forma rápida e fácil.</p>
+                <p>Faça seus pedidos de forma rápida e agende a entrega.</p>
             </div>
             <div class="feature-card">
                 <h4>Carrinho Inteligente</h4>
@@ -383,10 +393,6 @@
             <div class="feature-card">
                 <h4>Acompanhe seu Pedido</h4>
                 <p>Saiba exatamente quando seu bolo estará pronto.</p>
-            </div>
-            <div class="feature-card">
-                <h4>Encomenda de bolos decorados</h4>
-                <p>Em breve vai ter a opção de fazer uma encomendar de bolos decorados para festa e encomenda de docinhos cento( Tradicionais e Gourmet ).</p>
             </div>
         </div>
 
@@ -398,16 +404,15 @@
             <div class="tech-item"><span class="tech-icon">🎨</span> <span>TypeScript</span></div>
         </div>
 
-        <div class="download-banner">
-            <i class="fas fa-download"></i> Instalar App (APK)
-        </div>
+        <a href="https://expo.dev/artifacts/eas/evYyRHUEdf4vkK9dt7KMF5.apk" class="download-btn">
+            <i class="fas fa-download"></i> Baixar App (APK)
+        </a>
 
         <div class="qrcode-section">
-            <p style="margin-bottom: 15px; color: #9D174D; font-weight: 500;">Escaneie o código abaixo com a câmera do seu celular:</p>
+            <p style="margin-bottom: 15px; color: #9D174D; font-weight: 500;">Ou escaneie o código abaixo com a câmera:</p>
 
             <div class="qrcode-container">
                 <img id="qrcode-image" src="./imagens/qrcodeApk.png" alt="QR Code para baixar App DaniCake">
-                <a href="https://expo.dev/artifacts/eas/evYyRHUEdf4vkK9dt7KMF5.apk">Baixar</a>
             </div>
 
             <div class="scan-instruction">
@@ -416,47 +421,14 @@
             </div>
 
             <div id="qr-fallback" class="qr-fallback">
-                <!-- <div style="margin: 15px 0;">
+                <div style="margin: 15px 0;">
                     <i class="fas fa-exclamation-triangle" style="color: #f59e0b; font-size: 24px; margin-bottom: 10px;"></i>
-                    <p style="color: #666; margin-bottom: 15px;">QR Code não carregado. Clique no botão abaixo:</p>
-                </div> -->
+                    <p style="color: #666; margin-bottom: 15px;">QR Code não carregado.</p>
+                </div>
             </div>
         </div>
 
     </div>
 </div>
 
-<!-- <script>
-    // Substitua pela URL real do seu APK no GitHub
-    const APK_URL = "https://github.com/SeuUsuario/SeuRepositorio/releases/download/v1.0.0/app.apk";
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const qrImage = document.getElementById('qrcode-image');
-        const qrFallback = document.getElementById('qr-fallback');
-
-        // Tratamento de erro se a imagem do QR Code não carregar
-        qrImage.onerror = function() {
-            console.log("Erro ao carregar QR Code");
-            qrImage.style.display = 'none'; // Esconde a imagem quebrada
-            qrFallback.style.display = 'block'; // Mostra o aviso
-
-            const qrContainer = document.querySelector('.qrcode-container');
-            // Insere um botão de download direto como alternativa
-            qrContainer.innerHTML = `
-                <div style="padding: 20px; text-align: center;">
-                    <a href="${APK_URL}"
-                       style="background: #EC4899; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block; font-weight: 600;">
-                        <i class="fas fa-download"></i> Download Direto APK
-                    </a>
-                </div>
-            `;
-        };
-
-        // Permite clicar na imagem para baixar também (opcional)
-        qrImage.addEventListener('click', function() {
-            window.open(APK_URL, '_blank');
-        });
-    }); -->
-</script>
-</body>
 </html>
