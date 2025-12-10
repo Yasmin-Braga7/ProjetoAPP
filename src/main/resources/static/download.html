@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalar DaniCake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RESET BÁSICO - Importante para evitar que padding estoure a largura */
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #DB2777;
+            --primary-hover: #BE185D;
+            --bg-gradient: linear-gradient(180deg, #FDF2F8 0%, #FFF 100%);
+            --text: #831843;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .install-card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 40px;
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(219, 39, 119, 0.25);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #FCE7F3;
+        }
+
+        .logo-area {
+            width: 120px;
+            height: 120px;
+            /* background removido pois a imagem vai cobrir */
+            border-radius: 35px; /* Arredondamento do container */
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px rgba(219, 39, 119, 0.1);
+            overflow: hidden; /* Garante que a imagem respeite as bordas arredondadas */
+        }
+
+        /* Estilo novo para a imagem da logo se adaptar ao container */
+        .logo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        p { color: #9D174D; margin-bottom: 30px; }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            width: 100%; /* Com box-sizing: border-box, isso agora respeita o pai */
+            padding: 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.4);
+            margin-bottom: 20px;
+            border: none; /* Boa prática garantir que não tenha borda padrão */
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-hover);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(219, 39, 119, 0.5);
+        }
+
+        .secondary-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-outline {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #FBCFE8;
+            border-radius: 15px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover { background: #FDF2F8; border-color: var(--primary); }
+
+        .qr-section {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px dashed #FCE7F3;
+        }
+
+        .qr-box {
+            background: white;
+            border: 2px solid var(--primary);
+            display: inline-block;
+            padding: 10px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .qr-box img { width: 140px; height: 140px; display: block; }
+
+        .safe-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #ECFDF5;
+            color: #059669;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .install-card { padding: 30px 20px; }
+            .logo-area { width: 90px; height: 90px; }
+            h1 { font-size: 1.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="install-card">
+    <div class="logo-area">
+        <img src="imagens/LogoCake.png" alt="Logo DaniCake">
+    </div>
+
+    <div class="safe-badge"><i class="fas fa-shield-alt"></i> Verificado e Seguro</div>
+
+    <h1>Baixar DaniCake</h1>
+    <p>Peça bolos deliciosos direto do seu celular.<br>Versão Beta 1.0.0 para Android.</p>
+
+    <a href="#" class="btn-download"> <i class="fab fa-android fa-lg"></i>
+        <span>Download APK</span>
+    </a>
+
+    <div class="secondary-actions">
+        <a href="video.html" class="btn-outline"><i class="fas fa-play"></i> Ver Vídeo</a>
+        <a href="index.html" class="btn-outline"><i class="fas fa-file-alt"></i> Detalhes</a>
+    </div>
+
+    <div class="qr-section">
+        <div class="qr-box">
+            <img src="imagens/qrcodeApk.png" alt="QR Code do App">
+        </div>
+        <p style="font-size: 0.9rem; margin-bottom: 0;">Use a câmera do celular para ler o QrCode</p>
+    </div>
+</div>
+
+</body>
+</html>

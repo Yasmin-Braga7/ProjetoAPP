@@ -3,432 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App DaniCake</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Documentação - DaniCake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary: #DB2777;
+            --primary-dark: #9D174D;
+            --bg-body: #FFF1F2;
+            --card-bg: #FFFFFF;
+            --text-main: #4A044E;
+            --badge-bg: #FCE7F3;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #FFF0F5 0%, #FCE7F3 100%);
-            min-height: 100vh;
-            color: #1F2937;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.6;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 20px 15px;
+            padding: 40px 20px;
         }
 
-        .header {
+        /* Hero Header */
+        .hero {
             text-align: center;
-            padding: 30px 0;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #DB2777 0%, #BE185D 100%);
+            border-radius: 40px;
+            color: white;
+            margin-bottom: 50px;
+            box-shadow: 0 20px 40px rgba(219, 39, 119, 0.2);
         }
 
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-            color: #BE185D;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: -0.5px;
+        .hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
         }
 
-        .header p {
-            font-size: 1.1rem;
-            color: #6B7280;
-            max-width: 500px;
-            margin: 0 auto;
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+
+        .btn-hero {
+            display: inline-block;
+            margin-top: 25px;
+            background: white;
+            color: var(--primary);
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .content {
-            background: #FFFFFF;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.15);
-            margin: 15px 0;
-            position: relative;
-            overflow: hidden;
-        }
+        .btn-hero:hover { transform: scale(1.05); }
 
-        .content::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #EC4899, #DB2777, #BE185D);
+        /* Cards Gerais */
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.05);
+            border: 1px solid rgba(219, 39, 119, 0.1);
+            overflow-x: auto;
         }
 
         h2 {
-            color: #BE185D;
-            margin-bottom: 16px;
-            font-size: 1.5rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        h3 {
-            color: #9D174D;
-            margin: 20px 0 12px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        p {
-            margin-bottom: 12px;
-            color: #1F2937;
-            font-size: 0.95rem;
-        }
-
-        /* Estilo do Botão de Download */
-        .download-btn {
-            display: block;
-            background: linear-gradient(to right, #EC4899, #DB2777);
-            color: #FFFFFF;
-            padding: 16px 25px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 40px 0 20px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
-            position: relative;
-            overflow: hidden;
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: 0.5px;
-            text-decoration: none; /* Remove o sublinhado do link */
-            transition: box-shadow 0.3s ease, transform 0.2s ease;
-        }
-
-        /* Efeito suave ao passar o mouse (sem zoom exagerado) */
-        .download-btn:hover {
-            box-shadow: 0 6px 15px rgba(236, 72, 153, 0.5);
-            transform: translateY(-1px);
-        }
-
-        .download-btn:active {
-            transform: translateY(1px);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .feature-card {
-            background: #FDF2F8;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .feature-card h4 {
-            color: #9D174D;
-            margin-bottom: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .feature-card p {
-            font-size: 0.9rem;
-            color: #1F2937;
-            margin: 0;
-        }
-
-        .tech-stack {
-            display: flex;
-            justify-content: space-between;
-            margin: 25px 0;
-            flex-wrap: wrap;
             gap: 12px;
         }
 
-        .tech-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(236, 72, 153, 0.1);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: #1F2937;
-        }
-
-        .tech-icon {
-            color: #EC4899;
-            font-weight: bold;
-        }
-
-        .warning-alert {
-            background: #FFF1F2;
-            border-left: 4px solid #F43F5E;
-            padding: 16px;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .warning-icon {
-            color: #E11D48;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        .warning-content h4 {
-            color: #9F1239;
-            margin-bottom: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .warning-content p {
-            color: #9F1239;
-            margin: 0;
-            font-size: 0.9rem;
-        }
-
-        /* Estilos do QR Code */
-        .qrcode-section {
-            text-align: center;
-            margin: 0 0 30px;
-            padding: 25px;
-            background: #FDF2F8;
-            border-radius: 12px;
-            border: 2px dashed #F472B6;
-        }
-
-        .qrcode-container {
-            display: inline-block;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin: 15px 0;
-            border: 2px solid #EC4899;
-        }
-
-        .qrcode-container img {
-            width: 300px;
-            height: 300px;
-            border-radius: 8px;
-            display: block;
-        }
-
-        .scan-instruction {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        .qr-fallback {
-            display: none;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .app-preview {
-            margin: 30px 0;
-        }
-
-        .screenshots-grid {
+        /* Tech Stack Grid */
+        .tech-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
         }
 
-        .screenshot-card {
-            background: #F8FAFC;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+        .tech-item {
+            background: var(--badge-bg);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: 0.3s;
+            border: 2px solid transparent;
         }
 
-        .screenshot-card:hover {
-            transform: translateY(-3px);
+        .tech-item:hover {
+            border-color: var(--primary);
+            background: white;
+            transform: translateY(-5px);
         }
 
-        .screenshot-content {
+        .tech-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .tech-icon { font-size: 1.5rem; }
+        .tech-name { font-weight: 700; color: var(--primary-dark); font-size: 1rem; }
+        .tech-desc { font-size: 0.85rem; color: #831843; opacity: 0.8; }
+
+        /* --- CSS DO ROADMAP RETO (Atualizado) --- */
+        .roadmap-container {
+            padding: 30px 0;
+            min-width: 800px;
+        }
+
+        .roadmap-list {
+            display: flex;
+            justify-content: space-between;
+            list-style: none;
             padding: 0;
+            margin: 0;
+            position: relative;
+        }
+
+        /* A Linha Reta Rosa */
+        .roadmap-list::before {
+            content: '';
+            position: absolute;
+            top: 25px; /* Posicionada exatamente no meio das bolinhas */
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #FBCFE8; /* Rosa claro */
+            z-index: 0;
+            border-radius: 4px;
+        }
+
+        .roadmap-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-        }
-
-        .screenshot-image {
-            width: 100%;
-            height: 160px;
-            object-fit: contain;
-            display: block;
-            border-radius: 10px;
-            padding: 5px;
-            background: white;
-        }
-
-        .image-description {
-            padding: 12px;
             text-align: center;
-            color: #6B7280;
-            font-size: 0.85rem;
-            background: #FDF2F8;
-            width: 100%;
+            flex: 1;
+            z-index: 1;
+            position: relative;
         }
+
+        /* A Bolinha com Número */
+        .roadmap-number {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            /* Borda branca grossa para separar a linha do fundo */
+            border: 5px solid white;
+            /* Sombra rosa suave */
+            box-shadow: 0 0 0 3px #FBCFE8;
+            margin-bottom: 15px; /* Espaço entre a bolinha e o texto */
+            transition: all 0.3s ease;
+        }
+
+        .roadmap-text {
+            padding: 0 5px;
+        }
+
+        .roadmap-title {
+            display: block;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        .roadmap-subtitle {
+            display: block;
+            font-size: 0.85em;
+            color: var(--primary);
+            font-weight: 600;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        /* Efeito Hover */
+        .roadmap-item:hover .roadmap-number {
+            transform: scale(1.1);
+            background-color: var(--primary-dark);
+            box-shadow: 0 0 0 5px #FBCFE8;
+        }
+        /* --- FIM DO CSS DO ROADMAP --- */
+
+        /* Tabela Estilo Menu */
+        .price-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+            min-width: 600px;
+        }
+
+        .price-table th { text-align: left; color: var(--primary); padding: 10px 20px; font-size: 0.95rem; }
+        .price-table td { background: #FAFAFA; padding: 20px; vertical-align: middle; }
+
+        .price-table tr td:first-child { border-radius: 15px 0 0 15px; font-weight: 700; color: var(--primary-dark); }
+        .price-table tr td:last-child { border-radius: 0 15px 15px 0; font-weight: 700; color: var(--primary); }
+        .price-table tr:hover td { background: #FFF0F5; }
+
+        .role-desc {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Screenshots */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .screen-card {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            background: #000;
+        }
+
+        .screen-card:hover { transform: scale(1.02); }
+        .screen-card img { width: 100%; height: auto; display: block; opacity: 0.9; }
 
         @media (max-width: 768px) {
-            .features-grid, .screenshots-grid {
-                grid-template-columns: 1fr;
+            .hero h1 { font-size: 2.5rem; }
+            .container { padding: 20px; }
+            .tech-grid { grid-template-columns: 1fr 1fr; }
+            .price-table th:nth-child(2), .price-table td:nth-child(2),
+            .price-table th:nth-child(3), .price-table td:nth-child(3) {
+                display: none;
             }
-            .tech-stack {
-                flex-direction: column;
-                align-items: flex-start;
+            .price-table th:last-child, .price-table td:last-child {
+                text-align: right;
             }
-            .header h1 { font-size: 1.9rem; }
-            .content { padding: 20px; }
-            .screenshot-image { height: 170px; }
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 15px 10px; }
-            .header h1 { font-size: 1.7rem; }
-            .content { padding: 15px; }
-            .warning-alert { flex-direction: column; text-align: center; }
-            .screenshot-image { height: 150px; }
-            .qrcode-container img { width: 180px; height: 180px; }
         }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <div class="header">
-        <h1>🍰 App DaniCake</h1>
-        <p>Seus bolos favoritos na palma da mão</p>
+    <div class="hero">
+        <h1>DaniCake</h1>
+        <p>Adoçando a vida, um clique de cada vez.</p>
+        <div style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Fullstack Project: Java Spring + React Native</div>
+        <a href="install.html" class="btn-hero">Experimentar o App</a>
     </div>
 
-    <div class="content">
-        <div class="warning-alert">
-            <div class="warning-icon">⚠️</div>
-            <div class="warning-content">
-                <h4>Versão de Testes</h4>
-                <p>Este aplicativo é uma versão de demonstração para o portfólio de Desenvolvimento de Sistemas.</p>
+    <div class="card">
+        <h2>🛠️ Tecnologias do Projeto</h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">⚛️</span><span class="tech-name">React Native</span></div>
+                <div class="tech-desc">Mobile</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">🐬</span><span class="tech-name">MySQL</span></div>
+                <div class="tech-desc">Banco de Dados</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">☕</span><span class="tech-name">Java + Spring</span></div>
+                <div class="tech-desc">Backend & API</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">🐳</span><span class="tech-name">Docker</span></div>
+                <div class="tech-desc">Containerização</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">🧪</span><span class="tech-name">JUnit</span></div>
+                <div class="tech-desc">Testes Unitários</div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">🎨</span><span class="tech-name">Figma</span></div>
+                <div class="tech-desc">Prototipação UI/UX</div>
+            </div>
+
+
+            <div class="tech-item">
+                <div class="tech-header"><span class="tech-icon">⚙️</span><span class="tech-name">Jenkins</span></div>
+                <div class="tech-desc">CI/CD Automation</div>
             </div>
         </div>
+    </div>
 
-        <h2>📱 Sobre o Aplicativo</h2>
-        <p>O App DaniCake foi desenvolvido para facilitar a encomenda de bolos e doces deliciosos, oferecendo uma experiência doce e moderna.</p>
-
-        <div class="app-preview">
-            <h3>📸 Preview do Aplicativo</h3>
-            <div class="screenshots-grid">
-                <div class="screenshot-card">
-                    <div class="screenshot-content">
-                        <img src="./images/Splash.jpeg" alt="Tela de Abertura" class="screenshot-image">
-                        <div class="image-description">Bem-vindo ao mundo doce</div>
+    <div class="card">
+        <h2>📅 Ciclo de Desenvolvimento</h2>
+        <div class="roadmap-container">
+            <ul class="roadmap-list">
+                <li class="roadmap-item">
+                    <span class="roadmap-number">1</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Docs</span>
                     </div>
-                </div>
-                <div class="screenshot-card">
-                    <div class="screenshot-content">
-                        <img src="./images/Login.jpeg" alt="Tela de Login" class="screenshot-image">
-                        <div class="image-description">Faça seu login</div>
+                </li>
+                <li class="roadmap-item">
+                    <span class="roadmap-number">2</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Prototipação</span>
+                        <span class="roadmap-subtitle">(Figma)</span>
                     </div>
-                </div>
-                <div class="screenshot-card">
-                    <div class="screenshot-content">
-                        <img src="./images/Resumofinanceiro.jpeg" alt="Catálogo" class="screenshot-image">
-                        <div class="image-description">Escolha seus bolos favoritos</div>
+                </li>
+                <li class="roadmap-item">
+                    <span class="roadmap-number">3</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Backend</span>
+                        <span class="roadmap-subtitle">(Java)</span>
                     </div>
-                </div>
-                <div class="screenshot-card">
-                    <div class="screenshot-content">
-                        <img src="./images/Novatransacao.jpeg" alt="Carrinho" class="screenshot-image">
-                        <div class="image-description">Finalize sua encomenda</div>
+                </li>
+                <li class="roadmap-item">
+                    <span class="roadmap-number">4</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Frontend</span>
+                        <span class="roadmap-subtitle">(React)</span>
                     </div>
-                </div>
+                </li>
+                <li class="roadmap-item">
+                    <span class="roadmap-number">5</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Testes</span>
+                        <span class="roadmap-subtitle">(Backend)</span>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <span class="roadmap-number">6</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Docker</span>
+                        <span class="roadmap-subtitle">(Container)</span>
+                    </div>
+                </li>
+                <li class="roadmap-item">
+                    <span class="roadmap-number">7</span>
+                    <div class="roadmap-text">
+                        <span class="roadmap-title">Deploy</span>
+                        <span class="roadmap-subtitle">(CI/CD)</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>💰 Investimento no Projeto</h2>
+        <table class="price-table">
+            <thead>
+            <tr>
+                <th style="width: 40%;">Profissional</th>
+                <th>Tempo</th>
+                <th>Custo Mensal</th>
+                <th>Valor Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Dev. Full Stack Júnior
+                    <span class="role-desc">Backend, Frontend, UI/UX, Testes</span>
+                </td>
+                <td>6 Meses</td>
+                <td>R$ 3.900,00</td>
+                <td>R$ 23.400,00</td>
+            </tr>
+            <tr style="background: #FCE7F3;">
+                <td style="color: #DB2777; font-weight: bold;">Total Estimado</td>
+                <td>-</td>
+                <td>-</td>
+                <td style="font-size: 1.2rem; color: #DB2777; font-weight: bold;">R$ 23.400,00</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>📸 Galeria do App</h2>
+        <div class="gallery">
+            <div class="screen-card">
+                <img src="images/Login.jpeg" alt="Tela Login">
+            </div>
+            <div class="screen-card">
+                <img src="images/Resumofinanceiro.jpeg" alt="Catalogo">
             </div>
         </div>
-
-        <h3>🚀 Funcionalidades Principais</h3>
-        <div class="features-grid">
-            <div class="feature-card">
-                <h4>Catálogo Delicioso</h4>
-                <p>Visualize fotos e detalhes de todos os bolos e doces disponíveis.</p>
-            </div>
-            <div class="feature-card">
-                <h4>Encomenda Fácil</h4>
-                <p>Faça seus pedidos de forma rápida e agende a entrega.</p>
-            </div>
-            <div class="feature-card">
-                <h4>Carrinho Inteligente</h4>
-                <p>Gerencie seus itens e veja o total da compra em tempo real.</p>
-            </div>
-            <div class="feature-card">
-                <h4>Acompanhe seu Pedido</h4>
-                <p>Saiba exatamente quando seu bolo estará pronto.</p>
-            </div>
-        </div>
-
-        <h3>🛠 Tecnologias Utilizadas</h3>
-        <div class="tech-stack">
-            <div class="tech-item"><span class="tech-icon">⚛️</span> <span>React Native</span></div>
-            <div class="tech-item"><span class="tech-icon">🌱</span> <span>Spring Boot</span></div>
-            <div class="tech-item"><span class="tech-icon">🗄️</span> <span>PostgreSQL/MySQL</span></div>
-            <div class="tech-item"><span class="tech-icon">🎨</span> <span>TypeScript</span></div>
-        </div>
-
-        <a href="https://expo.dev/artifacts/eas/evYyRHUEdf4vkK9dt7KMF5.apk" class="download-btn">
-            <i class="fas fa-download"></i> Baixar App (APK)
-        </a>
-
-        <div class="qrcode-section">
-            <p style="margin-bottom: 15px; color: #9D174D; font-weight: 500;">Ou escaneie o código abaixo com a câmera:</p>
-
-            <div class="qrcode-container">
-                <img id="qrcode-image" src="./imagens/qrcodeApk.png" alt="QR Code para baixar App DaniCake">
-            </div>
-
-            <div class="scan-instruction">
-                <i class="fas fa-camera"></i>
-                <span>Aponte a câmera para ler</span>
-            </div>
-
-            <div id="qr-fallback" class="qr-fallback">
-                <div style="margin: 15px 0;">
-                    <i class="fas fa-exclamation-triangle" style="color: #f59e0b; font-size: 24px; margin-bottom: 10px;"></i>
-                    <p style="color: #666; margin-bottom: 15px;">QR Code não carregado.</p>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
+</body>
 </html>

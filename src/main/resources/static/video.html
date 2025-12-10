@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vídeo Demonstrativo - DaniCake</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #DB2777;
+            --primary-dark: #BE185D;
+            --primary-light: #FCE7F3;
+            --text-main: #831843;
+            --text-body: #9D174D;
+            --bg-gradient: linear-gradient(180deg, #FDF2F8 0%, #FFF 100%);
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex; /* Centralizar verticalmente se quiser */
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* --- Video Card Section --- */
+        .video-section {
+            background: var(--white);
+            border-radius: 40px; /* Mais arredondado como no seu print */
+            padding: 40px;
+            border: 2px solid var(--primary-light);
+            width: 100%;
+            box-shadow: 0 15px 40px -10px rgba(219, 39, 119, 0.15);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        /* --- NOVO: Header Interno --- */
+        .internal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px dashed var(--primary-light);
+            padding-bottom: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+    height: 50px;
+    width: auto;
+    border-radius: 12px;
+}
+
+        .logo-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-light);
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        /* --- Video Content --- */
+        .video-header { text-align: center; margin-bottom: 25px; }
+
+        .video-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .video-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .video-center-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%; /* Ocupa largura total disponível */
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(131, 24, 67, 0.15);
+            background: #000;
+            aspect-ratio: 16 / 9;
+        }
+
+        video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .progress-container { width: 100%; margin-bottom: 20px; }
+
+        .progress-bar {
+            width: 100%; height: 12px;
+            background: var(--primary-light);
+            border-radius: 6px; cursor: pointer;
+            overflow: hidden; margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%; background: var(--primary);
+            width: 0%; border-radius: 6px;
+            transition: width 0.1s linear;
+        }
+
+        .progress-time {
+            display: flex; justify-content: space-between;
+            font-size: 0.85rem; color: var(--text-body); font-weight: 700;
+        }
+
+        .video-controls {
+            display: flex; justify-content: center;
+            gap: 12px; flex-wrap: wrap; margin-bottom: 30px;
+        }
+
+        .control-btn {
+            display: flex; align-items: center; gap: 8px;
+            background: white; color: var(--primary);
+            border: 2px solid var(--primary-light);
+            padding: 10px 20px; border-radius: 15px;
+            font-family: 'Nunito', sans-serif; font-weight: 700;
+            cursor: pointer; transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-light); border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.primary {
+            background: var(--primary); color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3);
+        }
+
+        .control-btn.primary:hover { background: var(--primary-dark); }
+
+        .video-info {
+            background: var(--primary-light);
+            padding: 25px; border-radius: 25px;
+            text-align: center; border: 1px dashed var(--primary);
+        }
+
+        .video-info h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary); margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        .sidebar { width: 100%; margin-top: 30px; }
+
+        .card {
+            background: white; border-radius: 30px;
+            padding: 30px; border: 2px solid var(--primary-light);
+            box-shadow: 0 10px 30px rgba(219, 39, 119, 0.1);
+        }
+
+        .download-btn {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; background: var(--primary); color: white;
+            padding: 18px; text-decoration: none;
+            border-radius: 20px; font-size: 1.2rem; font-weight: 700;
+            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3);
+            transition: all 0.3s ease; margin-top: 20px;
+        }
+
+        .download-btn:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+        /* Loading */
+        .video-loading {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.8); z-index: 10;
+        }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .video-section { padding: 25px 20px; }
+            .internal-header { flex-direction: row; gap: 10px; margin-bottom: 20px;}
+            .logo-text { font-size: 1.4rem; }
+            .back-btn span { display: none; } /* Oculta texto 'Voltar' no mobile, deixa só icone */
+            .back-btn { padding: 10px; }
+            .video-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <section class="video-section">
+
+        <div class="internal-header">
+            <a href="index.html" class="logo">
+                <img src="imagens/LogoCake.png" alt="Logo DaniCake" class="logo-img">
+                <div class="logo-text">DaniCake</div>
+            </a>
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> <span>Voltar</span>
+            </a>
+        </div>
+
+        <div class="video-header">
+            <h1 class="video-title">Veja como é fácil usar o app DaniCake</h1>
+            <span class="video-tag">Video de como funciona o APK</span>
+        </div>
+
+        <div class="video-center-container">
+            <div class="video-container">
+                <div class="video-loading" id="videoLoading">
+                    <div class="spinner"></div>
+                </div>
+
+                <video id="demoVideo" poster="images/poster_bolo.jpg">
+                    <source src="images/video_demo.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução de vídeos HTML5.
+                </video>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-time">
+                <span id="currentTime">0:00</span>
+                <span id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <div class="video-controls">
+            <button class="control-btn primary" id="playBtn">
+                <i class="fas fa-play"></i> Reproduzir
+            </button>
+            <button class="control-btn" id="pauseBtn">
+                <i class="fas fa-pause"></i> Pausar
+            </button>
+            <button class="control-btn" id="restartBtn">
+                <i class="fas fa-redo"></i> Reiniciar
+            </button>
+            <button class="control-btn" id="fullscreenBtn">
+                <i class="fas fa-expand"></i> Tela Cheia
+            </button>
+        </div>
+
+        <div class="video-info">
+            <h3><i class="fas fa-heart"></i> Feito com carinho</h3>
+            <p>Neste vídeo mostramos como escolher seu bolo favorito, personalizar a cobertura e finalizar o pedido em menos de 1 minuto!</p>
+        </div>
+    </section>
+
+    <aside class="sidebar">
+        <div class="card">
+            <h2 style="font-family: 'Fredoka'; color: var(--primary); margin-bottom: 15px; text-align: center;">
+                Gostou? Baixe agora!
+            </h2>
+            <a href="#" class="download-btn">
+                <i class="fab fa-android fa-lg"></i> Baixar APK DaniCake
+            </a>
+        </div>
+    </aside>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('demoVideo');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const videoLoading = document.getElementById('videoLoading');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateProgress() {
+            if (video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressFill.style.width = `${percent}%`;
+                currentTimeEl.textContent = formatTime(video.currentTime);
+            }
+        }
+
+        video.addEventListener('loadeddata', () => { videoLoading.style.display = 'none'; totalTimeEl.textContent = formatTime(video.duration); });
+        video.addEventListener('waiting', () => videoLoading.style.display = 'flex');
+        video.addEventListener('playing', () => videoLoading.style.display = 'none');
+        video.addEventListener('timeupdate', updateProgress);
+
+        document.querySelector('.progress-bar').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            video.currentTime = pos * video.duration;
+            updateProgress();
+        });
+
+        playBtn.addEventListener('click', () => video.play());
+        pauseBtn.addEventListener('click', () => video.pause());
+        restartBtn.addEventListener('click', () => { video.currentTime = 0; video.play(); });
+        fullscreenBtn.addEventListener('click', () => {
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        });
+
+        video.addEventListener('loadedmetadata', () => totalTimeEl.textContent = formatTime(video.duration));
+    });
+</script>
+</body>
+</html>
