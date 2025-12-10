@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @CrossOrigin("*")
 public class ApresentacaoController {
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "forward:/index.html";
     }

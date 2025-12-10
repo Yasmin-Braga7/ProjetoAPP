@@ -31,7 +31,7 @@ public class SecurityConfiguration {
             "/swagger-ui.html",
 
             "/index.html",
-            "/",
+            "/home",
             "/imagens/**",
             "/imagens/*",
             "/imagens"
