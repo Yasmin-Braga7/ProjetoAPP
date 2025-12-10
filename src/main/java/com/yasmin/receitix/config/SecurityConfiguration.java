@@ -30,9 +30,6 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/swagger-ui.html",
 
-            "/api/v1/images/foto/upload/{idProduto}",
-            "/api/v1/images/foto/{idProdutofoto}",
-            "/api/v1/images/{idProdutofoto}",
             "/index.html",
             "/",
             "/imagens/**",
@@ -58,6 +55,7 @@ public class SecurityConfiguration {
             "/api/usuario/foto/remover/{usuarioId}",
             "/api/pedido/atualizarStatus/{pedidoId}",
             "/api/pedidoItem/listar",
+            "/api/v1/images/foto/{idProdutofoto}",
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente
@@ -89,7 +87,10 @@ public class SecurityConfiguration {
             "/api/produto/atualizar/{produtoId}",
             "/api/produto/criar",
             "/api/produto/atualizarStatus/{produtoId}",
-            "/api/produto/apagar/{produtoId}"
+            "/api/produto/apagar/{produtoId}",
+
+            "/api/v1/images/foto/upload/{idProduto}",
+            "/api/v1/images/{idProdutofoto}",
     };
 
 
