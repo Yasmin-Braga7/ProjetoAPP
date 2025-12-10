@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @CrossOrigin("*")
-
 public class ApresentacaoController {
 
     @GetMapping("/")

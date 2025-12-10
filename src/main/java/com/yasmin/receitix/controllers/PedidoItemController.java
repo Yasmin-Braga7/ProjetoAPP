@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/pedidoItem")
 @Tag(name="PedidoItem", description="API para gerenciamento de itens de pedido")
+@CrossOrigin("*")
 public class PedidoItemController {
 
     private PedidoItemService pedidoItemService;

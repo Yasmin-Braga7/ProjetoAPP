@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/usuario")
 @Tag(name="Usuario", description="API para gerenciamento de usuarios")
+@CrossOrigin("*")
 public class UsuarioController {
     private UsuarioService usuarioService;
 
