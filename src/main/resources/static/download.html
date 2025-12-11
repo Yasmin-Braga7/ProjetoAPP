@@ -3,187 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instalar DaniCake</title>
+    <title>Vídeo Demonstrativo e Download - DaniCake</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* RESET BÁSICO - Importante para evitar que padding estoure a largura */
-        * {
-            box-sizing: border-box;
-        }
 
+    <style>
         :root {
             --primary: #DB2777;
-            --primary-hover: #BE185D;
+            --primary-dark: #BE185D;
+            --primary-light: #FCE7F3;
+            --text-main: #831843;
+            --text-body: #9D174D;
             --bg-gradient: linear-gradient(180deg, #FDF2F8 0%, #FFF 100%);
-            --text: #831843;
+            --white: #ffffff;
+            --success-bg: #ECFDF5;
+            --success-text: #059669;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Nunito', sans-serif;
             background: var(--bg-gradient);
-            color: var(--text);
+            color: var(--text-main);
+            line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
             padding: 20px;
         }
 
-        .install-card {
-            background: white;
+        .container {
             width: 100%;
-            max-width: 500px;
-            border-radius: 40px;
-            padding: 50px 30px;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(219, 39, 119, 0.25);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #FCE7F3;
+            max-width: 1200px; /* Aumentei um pouco para caber o layout lado a lado */
+            margin: 0 auto;
         }
 
-        .logo-area {
-            width: 120px;
-            height: 120px;
-            /* background removido pois a imagem vai cobrir */
-            border-radius: 35px; /* Arredondamento do container */
-            margin: 0 auto 25px;
+        /* --- Header de Navegação --- */
+        .internal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed var(--primary-light);
+        }
+
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 20px rgba(219, 39, 119, 0.1);
-            overflow: hidden; /* Garante que a imagem respeite as bordas arredondadas */
-        }
-
-        /* Estilo novo para a imagem da logo se adaptar ao container */
-        .logo-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        h1 {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-            margin-top: 0;
-        }
-
-        p { color: #9D174D; margin-bottom: 30px; }
-
-        .btn-download {
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%; /* Com box-sizing: border-box, isso agora respeita o pai */
-            padding: 20px;
-            border-radius: 20px;
+            gap: 10px;
             text-decoration: none;
-            font-size: 1.2rem;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            border-radius: 12px;
+        }
+
+        .logo-text {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 15px;
             font-weight: 700;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.4);
-            margin-bottom: 20px;
-            border: none; /* Boa prática garantir que não tenha borda padrão */
-            cursor: pointer;
+            border: 2px solid var(--primary-light);
+            font-size: 0.9rem;
         }
 
-        .btn-download:hover {
-            background: var(--primary-hover);
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(219, 39, 119, 0.5);
+        .back-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
         }
 
-        .secondary-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
+        /* --- LAYOUT GRID (O Segredo da união) --- */
+        .content-grid {
+            display: grid;
+            gap: 30px;
+            /* Mobile First: 1 coluna por padrão */
+            grid-template-columns: 1fr;
         }
 
-        .btn-outline {
-            flex: 1;
-            padding: 12px;
-            border: 2px solid #FBCFE8;
-            border-radius: 15px;
+        /* Em telas maiores (Desktop), divide em 2 colunas (Vídeo ocupa 65%, Download 35%) */
+        @media (min-width: 968px) {
+            .content-grid {
+                grid-template-columns: 2fr 1fr;
+                align-items: start; /* Alinha os cards no topo */
+            }
+        }
+
+        /* --- Coluna da Esquerda: Vídeo --- */
+        .video-section {
+            background: var(--white);
+            border-radius: 40px;
+            padding: 30px;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 15px 40px -10px rgba(219, 39, 119, 0.15);
+        }
+
+        .video-header { text-align: center; margin-bottom: 25px; }
+
+        .video-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
             color: var(--primary);
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-
-        .btn-outline:hover { background: #FDF2F8; border-color: var(--primary); }
-
-        .qr-section {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px dashed #FCE7F3;
-        }
-
-        .qr-box {
-            background: white;
-            border: 2px solid var(--primary);
-            display: inline-block;
-            padding: 10px;
-            border-radius: 15px;
             margin-bottom: 10px;
+            line-height: 1.2;
         }
 
-        .qr-box img { width: 140px; height: 140px; display: block; }
-
-        .safe-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: #ECFDF5;
-            color: #059669;
-            padding: 5px 12px;
+        .video-tag {
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 5px 15px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 700;
+            display: inline-block;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(131, 24, 67, 0.15);
+            background: #000;
+            aspect-ratio: 16 / 9;
             margin-bottom: 20px;
         }
 
-        @media (max-width: 480px) {
-            .install-card { padding: 30px 20px; }
-            .logo-area { width: 90px; height: 90px; }
-            h1 { font-size: 1.75rem; }
+        video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* Controles do Vídeo */
+        .progress-container { width: 100%; margin-bottom: 15px; }
+        .progress-bar {
+            width: 100%; height: 10px;
+            background: var(--primary-light);
+            border-radius: 6px; cursor: pointer;
+            overflow: hidden; margin-bottom: 5px;
+        }
+        .progress-fill {
+            height: 100%; background: var(--primary);
+            width: 0%; border-radius: 6px;
+            transition: width 0.1s linear;
+        }
+        .progress-time {
+            display: flex; justify-content: space-between;
+            font-size: 0.8rem; color: var(--text-body); font-weight: 700;
+        }
+
+        .video-controls {
+            display: flex; justify-content: center;
+            gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+        }
+
+        .control-btn {
+            display: flex; align-items: center; gap: 8px;
+            background: white; color: var(--primary);
+            border: 2px solid var(--primary-light);
+            padding: 8px 16px; border-radius: 12px;
+            font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; transition: all 0.2s;
+        }
+
+        .control-btn:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+        .control-btn.primary {
+            background: var(--primary); color: white; border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3);
+        }
+        .control-btn.primary:hover { background: var(--primary-dark); }
+
+        .video-info {
+            background: var(--primary-light);
+            padding: 20px; border-radius: 20px;
+            text-align: center; border: 1px dashed var(--primary);
+        }
+
+        .video-info h3 {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--primary); margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        /* Loading do Vídeo */
+        .video-loading {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.8); z-index: 10;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%; animation: spin 1s linear infinite;
+        }
+
+        /* --- Coluna da Direita: Download Card (Refatorado) --- */
+        .download-card {
+            background: white;
+            border-radius: 40px;
+            padding: 40px 30px;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 15px 40px -10px rgba(219, 39, 119, 0.15);
+            text-align: center;
+            position: sticky;
+            top: 20px; /* Faz o card acompanhar o scroll em telas grandes */
+        }
+
+        .app-icon-area {
+            width: 100px; height: 100px;
+            border-radius: 25px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.15);
+            overflow: hidden;
+        }
+        .app-icon-area img { width: 100%; height: 100%; object-fit: cover; }
+
+        .safe-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--success-bg); color: var(--success-text);
+            padding: 6px 14px; border-radius: 20px;
+            font-size: 0.85rem; font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .download-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem; color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .download-desc { font-size: 0.95rem; color: var(--text-body); margin-bottom: 25px; }
+
+        .btn-download-large {
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            width: 100%; padding: 18px;
+            border-radius: 18px; text-decoration: none;
+            font-size: 1.1rem; font-weight: 700;
+            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.3);
+            transition: all 0.3s ease; margin-bottom: 25px;
+        }
+
+        .btn-download-large:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(219, 39, 119, 0.4);
+        }
+
+        .qr-section {
+            border-top: 2px dashed var(--primary-light);
+            padding-top: 25px;
+        }
+
+        .qr-box {
+            background: white; border: 2px solid var(--primary);
+            padding: 8px; border-radius: 15px;
+            display: inline-block; margin-bottom: 10px;
+        }
+        .qr-box img { width: 120px; height: 120px; display: block; }
+
+        .qr-text { font-size: 0.85rem; color: var(--text-body); }
+
+        /* Animações */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Media Queries Ajustes Finos */
+        @media (max-width: 600px) {
+            .internal-header { flex-direction: row; gap: 10px; margin-bottom: 20px;}
+            .back-btn span { display: none; }
+            .back-btn { padding: 10px; }
+            .video-title { font-size: 1.4rem; }
+            .content-grid { gap: 40px; } /* Mais espaço entre vídeo e download no mobile */
         }
     </style>
 </head>
 <body>
 
-<div class="install-card">
-    <div class="logo-area">
-        <img src="imagens/LogoCake.png" alt="Logo DaniCake">
+<div class="container">
+
+    <div class="internal-header">
+        <a href="index.html" class="logo">
+            <img src="imagens/LogoCake.png" alt="Logo DaniCake" class="logo-img">
+            <div class="logo-text">DaniCake</div>
+        </a>
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> <span>Voltar</span>
+        </a>
     </div>
 
-    <div class="safe-badge"><i class="fas fa-shield-alt"></i> Verificado e Seguro</div>
+    <div class="content-grid">
 
-    <h1>Baixar DaniCake</h1>
-    <p>Peça bolos deliciosos direto do seu celular.<br>Versão Beta 1.0.0 para Android.</p>
+        <section class="video-section">
+            <div class="video-header">
+                <h1 class="video-title">Veja como é fácil usar o app</h1>
+                <span class="video-tag">Demonstração v1.0.0</span>
+            </div>
 
-    <a href="#" class="btn-download"> <i class="fab fa-android fa-lg"></i>
-        <span>Download APK</span>
-    </a>
+            <div class="video-container">
+                <div class="video-loading" id="videoLoading">
+                    <div class="spinner"></div>
+                </div>
+                <video id="demoVideo" poster="images/poster_bolo.jpg" playsinline>
+                    <source src="images/video_demo.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
 
-    <div class="secondary-actions">
-        <a href="video.html" class="btn-outline"><i class="fas fa-play"></i> Ver Vídeo</a>
-        <a href="index.html" class="btn-outline"><i class="fas fa-file-alt"></i> Detalhes</a>
-    </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-time">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:00</span>
+                </div>
+            </div>
 
-    <div class="qr-section">
-        <div class="qr-box">
-            <img src="imagens/qrcodeApk.png" alt="QR Code do App">
-        </div>
-        <p style="font-size: 0.9rem; margin-bottom: 0;">Use a câmera do celular para ler o QrCode</p>
-    </div>
-</div>
+            <div class="video-controls">
+                <button class="control-btn primary" id="playBtn">
+                    <i class="fas fa-play"></i> Play
+                </button>
+                <button class="control-btn" id="pauseBtn">
+                    <i class="fas fa-pause"></i> Pause
+                </button>
+                <button class="control-btn" id="restartBtn">
+                    <i class="fas fa-redo"></i> Replay
+                </button>
+                <button class="control-btn" id="fullscreenBtn">
+                    <i class="fas fa-expand"></i> Tela Cheia
+                </button>
+            </div>
 
+            <div class="video-info">
+                <h3><i class="fas fa-heart"></i> Feito com carinho</h3>
+                <p style="font-size: 0.95rem;">Neste vídeo mostramos como escolher seu bolo favorito e finalizar o pedido.</p>
+            </div>
+        </section>
+
+        <aside class="download-card">
+            <div class="app-icon-area">
+                <img src="imagens/LogoCake.png" alt="Ícone DaniCake">
+            </div>
+
+            <div class="safe-badge">
+                <i class="fas fa-shield-alt"></i> Verificado e Seguro
+            </div>
+
+            <h2 class="download-title">Baixar DaniCake</h2>
+            <p class="download-desc">
+                Peça bolos deliciosos direto do seu celular.<br>Versão Beta 1.0.0 para Android.
+            </p>
+
+            <a href="#" class="btn-download-large">
+                <i class="fab fa-android fa-lg"></i>
+                <span>Baixar APK Agora</span>
+            </a>
+
+            <div class="qr-section">
+                <div class="qr-box">
+                    <img src="imagens/QRcode.png" alt="QR Code para download">
+                </div>
+                <p class="qr-text">Aponte a câmera do celular<br>para baixar rapidinho</p>
+            </div>
+        </aside>
+
+    </div> </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('demoVideo');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const videoLoading = document.getElementById('videoLoading');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+        const progressBar = document.querySelector('.progress-bar');
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateProgress() {
+            if (video.duration) {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressFill.style.width = `${percent}%`;
+                currentTimeEl.textContent = formatTime(video.currentTime);
+            }
+        }
+
+        // Eventos do Vídeo
+        video.addEventListener('loadeddata', () => {
+            videoLoading.style.display = 'none';
+            totalTimeEl.textContent = formatTime(video.duration);
+        });
+
+        // Fallback caso loadeddata seja rápido demais ou metadata venha antes
+        video.addEventListener('loadedmetadata', () => {
+             totalTimeEl.textContent = formatTime(video.duration);
+        });
+
+        video.addEventListener('waiting', () => videoLoading.style.display = 'flex');
+        video.addEventListener('playing', () => videoLoading.style.display = 'none');
+        video.addEventListener('timeupdate', updateProgress);
+
+        // Atualiza ícone play/pause quando clica direto no vídeo
+        video.addEventListener('play', () => {
+             playBtn.style.display = 'none';
+             pauseBtn.style.display = 'flex';
+        });
+        video.addEventListener('pause', () => {
+             playBtn.style.display = 'flex';
+             pauseBtn.style.display = 'none';
+        });
+
+        // Clique na barra de progresso
+        progressBar.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            video.currentTime = pos * video.duration;
+            updateProgress();
+        });
+
+        // Controles
+        playBtn.addEventListener('click', () => video.play());
+        pauseBtn.addEventListener('click', () => video.pause());
+        restartBtn.addEventListener('click', () => { video.currentTime = 0; video.play(); });
+
+        fullscreenBtn.addEventListener('click', () => {
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen(); // Safari/iOS
+            else if (video.msRequestFullscreen) video.msRequestFullscreen();
+        });
+
+        // Estado inicial dos botões
+        pauseBtn.style.display = 'none';
+    });
+</script>
 </body>
 </html>
