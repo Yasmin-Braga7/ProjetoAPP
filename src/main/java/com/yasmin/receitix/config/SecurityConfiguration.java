@@ -30,6 +30,7 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/swagger-ui.html",
 
+            "/download.html",
             "/index.html",
             "/home",
             "/imagens/**",
@@ -129,5 +130,6 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }
