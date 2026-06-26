@@ -49,6 +49,7 @@ public class SecurityConfiguration {
             "/api/categoria/listar",
             "/api/categoria/listarPorCategoriaId/{categoriaId}",
             "/api/pedido/listar",
+            "/api/pedido/listar/usuario/{usuarioId}",
             "/api/pedido/listarPorPedidoId/{pedidoId}",
             "/api/usuario/listarPorUsuarioId/{usuarioId}",
             "/api/usuario/atualizar/{usuarioId}",
