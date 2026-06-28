@@ -39,6 +39,10 @@ public class PedidoService {
         return this.pedidoRepository.listarPedidos();
     }
 
+    public List<Pedido> listarPorUsuarioId(Integer usuarioId) {
+    return this.pedidoRepository.listarPorUsuarioId(usuarioId);
+}
+
     public Pedido listarPorPedidoId(Integer pedidoId) {
         return this.pedidoRepository.obterPedidoPeloId(pedidoId);
     }

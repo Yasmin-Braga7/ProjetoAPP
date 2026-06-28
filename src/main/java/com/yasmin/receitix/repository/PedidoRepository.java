@@ -24,6 +24,9 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @Query("SELECT p FROM Pedido p WHERE p.id=:id AND p.status >= 0")
     Pedido obterPedidoPeloId(@Param("id") Integer participanteId);
 
+    @Query("SELECT p FROM Pedido p WHERE p.usuario.id = :usuarioId AND p.status >= 0")
+    List<Pedido> listarPorUsuarioId(@Param("usuarioId") Integer usuarioId);
+
     @Query("SELECT p FROM Pedido p WHERE p.criado BETWEEN :inicio AND :fim")
     List<Pedido> findByCriadoBetween(@Param("inicio") LocalDateTime inicio, @Param("fim") LocalDateTime fim);
 

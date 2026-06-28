@@ -33,6 +33,12 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.listarPedidos());
     }
 
+    @GetMapping("/listar/usuario/{usuarioId}")
+    @Operation(summary = "Listar pedidos por usuário", description = "Retorna apenas os pedidos do usuário informado")
+    public ResponseEntity<List<Pedido>> listarPorUsuario(@PathVariable("usuarioId") Integer usuarioId) {
+        return ResponseEntity.ok(pedidoService.listarPorUsuarioId(usuarioId));
+    }
+
     @GetMapping("/listarPorPedidoId/{pedidoId}")
     @Operation(summary = "Listar participante pelo id de participante", description = "Endpoint para obter participante pelo id de participante")
     public ResponseEntity<Pedido> listarPorPedidoId(@PathVariable("pedidoId") Integer pedidoId){
