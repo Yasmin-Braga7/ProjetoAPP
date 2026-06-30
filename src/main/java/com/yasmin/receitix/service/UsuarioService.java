@@ -276,4 +276,22 @@ public class UsuarioService {
             }
         }
     }
+
+    /**
+     * Notifica um usuário específico (cliente) sobre uma mudança de status
+     * em um dos seus pedidos. Usado quando o admin aceita, envia ou entrega o pedido.
+     */
+    public void notificarClienteStatusPedido(Integer usuarioId, int pedidoId, String titulo, String corpo) {
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElse(null);
+        if (usuario == null) return;
+
+        if (usuario.getPushToken() != null && !usuario.getPushToken().isBlank()) {
+            pushNotificationService.enviar(
+                    usuario.getPushToken(),
+                    titulo,
+                    corpo,
+                    Map.of("tipo", "STATUS_PEDIDO", "pedidoId", pedidoId)
+            );
+        }
+    }
 }

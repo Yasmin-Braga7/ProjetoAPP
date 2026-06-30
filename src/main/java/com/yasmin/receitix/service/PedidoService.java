@@ -91,17 +91,65 @@ public class PedidoService {
 
         //se encontra o registro a ser atualizado
         if (pedido != null) {
+            int statusAnterior = pedido.getStatus();
+            int statusNovo = pedidoDTOUpdateRequest.getStatus();
+
             //atualizamos unicamente o campo de status
-            pedido.setStatus(pedidoDTOUpdateRequest.getStatus());
+            pedido.setStatus(statusNovo);
 
             //com o objeto no formato correto tipo "participante" o comando "save" salva
             // no banco de dados o objeto atualizado
             Pedido tempResponse = pedidoRepository.save(pedido);
+
+            // Notifica o cliente dono do pedido sobre a mudança de status,
+            // somente se o status realmente mudou.
+            if (statusAnterior != statusNovo && tempResponse.getUsuario() != null) {
+                notificarClienteMudancaStatus(tempResponse, statusNovo);
+            }
+
             return modelMapper.map(tempResponse, PedidoDTOUpdateResponse.class);
         }
         else{
             return null;
         }
+    }
+
+    /**
+     * Monta a mensagem adequada para cada status do pedido e dispara
+     * a notificação push para o cliente dono do pedido.
+     */
+    private void notificarClienteMudancaStatus(Pedido pedido, int statusNovo) {
+        String idFormatado = String.format("%03d", pedido.getId());
+        String titulo;
+        String corpo;
+
+        switch (statusNovo) {
+            case 1: // EM_PREPARO
+                titulo = "👨‍🍳 Pedido aceito!";
+                corpo = "Seu pedido Nº " + idFormatado + " entrou em preparo.";
+                break;
+            case 2: // ENVIADO
+                titulo = "🚀 Pedido a caminho!";
+                corpo = "Seu pedido Nº " + idFormatado + " saiu para entrega.";
+                break;
+            case 3: // ENTREGUE
+                titulo = "✅ Pedido entregue!";
+                corpo = "Seu pedido Nº " + idFormatado + " foi entregue. Bom apetite!";
+                break;
+            case -1: // CANCELADO
+                titulo = "❌ Pedido cancelado";
+                corpo = "Seu pedido Nº " + idFormatado + " foi cancelado.";
+                break;
+            default:
+                return; // status sem notificação específica (ex: voltar para pendente)
+        }
+
+        usuarioService.notificarClienteStatusPedido(
+                pedido.getUsuario().getId(),
+                pedido.getId(),
+                titulo,
+                corpo
+        );
     }
 
 //    public DashboardDTOResponse gerarDadosDashboard() {
