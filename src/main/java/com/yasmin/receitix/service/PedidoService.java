@@ -30,6 +30,9 @@ public class PedidoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     public PedidoService(PedidoRepository pedidoRepository, UsuarioRepository usuarioRepository) {
         this.pedidoRepository = pedidoRepository;
         this.usuarioRepository = usuarioRepository;
@@ -59,6 +62,10 @@ public class PedidoService {
         pedido.setUsuario(usuarioRepository.obterUsuarioPeloId(pedidoDTOrequest.getIdUsuario()));
         Pedido pedidoSave = this.pedidoRepository.save(pedido);
         PedidoDTOResponse pedidoDTOResponse = modelMapper.map(pedidoSave, PedidoDTOResponse.class);
+
+        // Notifica os administradores sobre o novo pedido recebido
+        usuarioService.notificarAdminsNovoPedido(pedidoSave.getId(), pedidoSave.getTotal());
+
         return pedidoDTOResponse;
     }
 

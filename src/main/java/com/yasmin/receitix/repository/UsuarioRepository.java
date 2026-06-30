@@ -26,4 +26,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("SELECT u FROM Usuario u WHERE u.email=:email AND u.status >= 0")
     Usuario findByEmail(@Param("email") String email);
+
+    @Query("SELECT u FROM Usuario u JOIN u.roles r WHERE r.name = com.yasmin.receitix.entity.RoleName.ROLE_ADMINISTRADOR AND u.status >= 0")
+    List<Usuario> findAllAdministradores();
 }

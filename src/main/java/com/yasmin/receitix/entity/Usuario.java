@@ -31,6 +31,12 @@ public class Usuario {
     @Column(name = "usuario_imagem")
     private byte[] imagem;
 
+    @Column(name = "usuario_push_token")
+    private String pushToken;
+
+    @Column(name = "usuario_session_id")
+    private String sessionId;
+
     @OneToMany(mappedBy = "usuario")
     private Set<Pedido> pedidos;
 
@@ -126,5 +132,21 @@ public class Usuario {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

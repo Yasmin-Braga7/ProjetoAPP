@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +41,9 @@ public class UsuarioService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PushNotificationService pushNotificationService;
 
     public UsuarioService(UsuarioRepository usuarioRepository, RoleService roleService) {
         this.usuarioRepository = usuarioRepository;
@@ -202,5 +206,74 @@ public class UsuarioService {
 
     public void apagarUsuario(Integer usuarioId){
         usuarioRepository.apagadoLogicoUsuario(usuarioId);
+    }
+
+    // ───────────────────────── Push Token ─────────────────────────
+
+    public void salvarPushToken(Integer usuarioId, String pushToken) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + usuarioId));
+        usuario.setPushToken(pushToken);
+        usuarioRepository.save(usuario);
+    }
+
+    // ───────────────────────── Sessão única ─────────────────────────
+
+    /**
+     * Salva o novo sessionId do dispositivo que acabou de logar.
+     * Se já existia uma sessão ativa em outro dispositivo (sessionId diferente),
+     * envia uma notificação push para o dispositivo anterior avisando
+     * que ele foi desconectado.
+     */
+    public void salvarSessionId(Integer usuarioId, String novoSessionId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + usuarioId));
+
+        String sessaoAnterior = usuario.getSessionId();
+        String tokenAnterior = usuario.getPushToken();
+
+        usuario.setSessionId(novoSessionId);
+        usuarioRepository.save(usuario);
+
+        boolean trocouDeDispositivo = sessaoAnterior != null
+                && !sessaoAnterior.isBlank()
+                && !sessaoAnterior.equals(novoSessionId);
+
+        if (trocouDeDispositivo && tokenAnterior != null && !tokenAnterior.isBlank()) {
+            pushNotificationService.enviar(
+                    tokenAnterior,
+                    "⚠️ Sessão encerrada",
+                    "Sua conta foi acessada em outro dispositivo.",
+                    Map.of("tipo", "SESSAO_ENCERRADA")
+            );
+        }
+    }
+
+    public String getSessionId(Integer usuarioId) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + usuarioId));
+        return usuario.getSessionId();
+    }
+
+    // ───────────────────────── Notificar admins ─────────────────────────
+
+    /**
+     * Envia notificação push para todos os usuários com ROLE_ADMINISTRADOR
+     * que tenham um pushToken cadastrado. Usado quando um novo pedido é criado.
+     */
+    public void notificarAdminsNovoPedido(int pedidoId, java.math.BigDecimal total) {
+        List<Usuario> admins = usuarioRepository.findAllAdministradores();
+        String idFormatado = String.format("%03d", pedidoId);
+
+        for (Usuario admin : admins) {
+            if (admin.getPushToken() != null && !admin.getPushToken().isBlank()) {
+                pushNotificationService.enviar(
+                        admin.getPushToken(),
+                        "🎂 Novo Pedido Recebido!",
+                        "Pedido Nº " + idFormatado + " — R$ " + total,
+                        Map.of("tipo", "NOVO_PEDIDO", "pedidoId", pedidoId)
+                );
+            }
+        }
     }
 }

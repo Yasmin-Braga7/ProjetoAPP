@@ -58,6 +58,8 @@ public class SecurityConfiguration {
             "/api/pedido/atualizarStatus/{pedidoId}",
             "/api/pedidoItem/listar",
             "/api/v1/images/foto/{idProdutofoto}",
+            "/api/usuario/pushToken/{usuarioId}",
+            "/api/usuario/sessao/{usuarioId}",
     };
 
     // Endpoints que só podem ser acessador por usuários com permissão de cliente

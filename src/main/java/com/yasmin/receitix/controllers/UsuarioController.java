@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/usuario")
@@ -101,5 +102,32 @@ public class UsuarioController {
     public ResponseEntity<RecoveryJwtTokenDTO> authenticateUser(@RequestBody LoginUserDTO loginUserDTO) {
         RecoveryJwtTokenDTO token = usuarioService.authenticateUser(loginUserDTO);
         return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+
+    // ───────────────────────── Notificações / Sessão única ─────────────────────────
+
+    @PatchMapping("/pushToken/{usuarioId}")
+    @Operation(summary = "Salvar pushToken", description = "Salva o token de notificação push do dispositivo do usuário")
+    public ResponseEntity<Void> salvarPushToken(
+            @PathVariable("usuarioId") Integer usuarioId,
+            @RequestBody Map<String, String> body) {
+        usuarioService.salvarPushToken(usuarioId, body.get("pushToken"));
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/sessao/{usuarioId}")
+    @Operation(summary = "Salvar sessão", description = "Salva o sessionId do dispositivo logado (controle de sessão única)")
+    public ResponseEntity<Void> salvarSessao(
+            @PathVariable("usuarioId") Integer usuarioId,
+            @RequestBody Map<String, String> body) {
+        usuarioService.salvarSessionId(usuarioId, body.get("sessionId"));
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/sessao/{usuarioId}")
+    @Operation(summary = "Obter sessão", description = "Retorna o sessionId ativo no momento para o usuário")
+    public ResponseEntity<Map<String, String>> getSessao(@PathVariable("usuarioId") Integer usuarioId) {
+        String sessionId = usuarioService.getSessionId(usuarioId);
+        return ResponseEntity.ok(Map.of("sessionId", sessionId != null ? sessionId : ""));
     }
 }
