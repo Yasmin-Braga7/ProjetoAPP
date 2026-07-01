@@ -1,15 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage('Fetch Secrets') {
-            steps {
-                bat 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.65702f07-d5f1-4681-8dfd-3b1f5e5c47d9.c4b552bb9bd4f97d88d011636cd877bf.70bdf1b0c24fd4ad23c9818b619b2695" > .env'
-            }
-        }
-
         stage('Verificar Repositório') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], useRemoteConfigs: [[url: 'https://github.com/Yasmin-Braga7/ProjetoAPP']]])
+            }
+        }
+
+        stage('Fetch Secrets') {
+            steps {
+                bat 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.65702f07-d5f1-4681-8dfd-3b1f5e5c47d9.c4b552bb9bd4f97d88d011636cd877bf.70bdf1b0c24fd4ad23c9818b619b2695" > .env'
             }
         }
 
