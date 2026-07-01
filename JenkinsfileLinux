@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Fetch Secrets') {
+            steps {
+                sh 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.65702f07-d5f1-4681-8dfd-3b1f5e5c47d9.c4b552bb9bd4f97d88d011636cd877bf.70bdf1b0c24fd4ad23c9818b619b2695" > .env'
+            }
+        }
+
         stage('Verificar Repositório') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], useRemoteConfigs: [[url: 'https://github.com/Yasmin-Braga7/ProjetoAPP']]])
@@ -14,11 +20,6 @@ pipeline {
                     env.PATH = "/usr/bin:$PATH"
                     // Instalar as dependências Maven antes de compilar o projeto
                     sh 'mvn clean install'  // Instala as dependências do Maven
-
-                    //dir('subpasta') {
-                    //  sh "docker build -t ${imageTag} ."
-                    //}
-
                 }
             }
         }
@@ -31,10 +32,6 @@ pipeline {
 
                     // Construir a imagem Docker
                     sh "docker build -t ${imageTag} ."
-
-                    //dir('subpasta') {
-                    //  sh "docker build -t ${imageTag} ."
-                    //}
                 }
             }
         }
@@ -49,13 +46,17 @@ pipeline {
             		sh "docker stop ${appName} || exit 0"
             		sh "docker rm -v ${appName} || exit 0"  // Remover o container e os volumes associados
 
-                    // Executar o novo container
-                    sh "docker run -d --name ${appName} -p 8402:8402 ${imageTag}"
+                    // Executar o novo container, injetando as variáveis de ambiente do .env gerado no stage Fetch Secrets
+                    sh "docker run -d --name ${appName} -p 8402:8402 --env-file .env ${imageTag}"
                 }
             }
         }
     }
     post {
+        always {
+            // Remove o arquivo .env do workspace para não deixar segredos em texto puro salvos no disco do Jenkins
+            sh 'rm -f .env'
+        }
         success {
             echo 'Deploy realizado com sucesso!'
         }
