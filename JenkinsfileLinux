@@ -3,7 +3,14 @@ pipeline {
     stages {
         stage('Fetch Secrets') {
             steps {
-                sh 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.65702f07-d5f1-4681-8dfd-3b1f5e5c47d9.c4b552bb9bd4f97d88d011636cd877bf.70bdf1b0c24fd4ad23c9818b619b2695" > .env'
+                withCredentials([string(credentialsId: 'infisical-token', variable: 'INFISICAL_TOKEN')]) {
+                    sh 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="$INFISICAL_TOKEN" > .env'
+                }
+                // O infisical export envolve os valores em aspas (ex: DB_URL="jdbc:mysql://...").
+                // O --env-file do docker/docker-compose NAO remove essas aspas, entao a variavel
+                // chega ao Spring com a aspa dentro do valor (por isso o erro
+                // "'url' must start with jdbc"). Este passo remove as aspas do .env.
+                sh "sed -i -E 's/^([^=]+)=\"(.*)\"$/\\1=\\2/' .env"
             }
         }
 
