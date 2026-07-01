@@ -9,7 +9,7 @@ pipeline {
                 // O --env-file do docker/docker-compose NAO remove essas aspas, entao a variavel
                 // chega ao Spring com a aspa dentro do valor (por isso o erro
                 // "'url' must start with jdbc"). Este passo remove as aspas do .env.
-                sh "sed -i -E 's/^([^=]+)=\"(.*)\"$/\\1=\\2/' .env"
+                sh 'sed -i -E \'s/^([^=]+)="(.*)"$/\\1=\\2/\' .env'
             }
         }
 
