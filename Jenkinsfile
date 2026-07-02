@@ -7,18 +7,6 @@ pipeline {
             }
         }
 
-        stage('Fetch Secrets') {
-            steps {
-                // TODO: troque pelo token NOVO gerado no Infisical (o antigo foi revogado por ter sido exposto)
-                bat 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.d8a9d665-770a-45a4-8077-4c7cf7d6ded3.d6f48d4527c29d89e8665f180f229a23.fe1fdd7848cbfde93e309935d7eba271" > .env'
-                // O infisical export envolve os valores em aspas (ex: DB_URL="jdbc:mysql://...").
-                // O "env_file:" do docker-compose NAO remove essas aspas, entao a variavel
-                // chega ao Spring com a aspa dentro do valor (por isso o erro
-                // "'url' must start with jdbc"). Este passo remove as aspas do .env.
-                powershell '(Get-Content .env) -replace \'^([^=]+)="(.*)"$\', \'$1=$2\' | Set-Content .env'
-            }
-        }
-
         stage('Instalar Dependências') {
             steps {
                 script {
@@ -52,17 +40,17 @@ pipeline {
             		bat "docker stop ${appName} || exit 0"
             		bat "docker rm -v ${appName} || exit 0"  // Remover o container e os volumes associados
 
-                    // Executar o novo container (o docker-compose.yml lê o .env gerado no stage Fetch Secrets)
-                    bat "docker-compose up -d --build"
+                    // O "infisical run" injeta as secrets direto no processo do docker-compose,
+                    // sem nunca escrever um .env em disco (evita tanto o vazamento de segredo
+                    // quanto o bug das aspas que o "infisical export" gera).
+                    withCredentials([string(credentialsId: 'infisical-token-prod', variable: 'INFISICAL_TOKEN')]) {
+                        bat 'npx -y @infisical/cli run --env="prod" --path="/receitix" --token="st.2ab38cc2-e5df-43d6-8b9b-54b0c4f0c447.cbbf380bf00ef8a331a339d38eddf418.8708bdcbd9440a4138f72f048a68f473" -- docker-compose up -d --build'
+                    }
                 }
             }
         }
     }
     post {
-        always {
-            // Remove o arquivo .env do workspace para não deixar segredos em texto puro salvos no disco do Jenkins
-            bat 'del /f /q .env 2> nul || exit 0'
-        }
         success {
             echo 'Deploy realizado com sucesso!'
         }
