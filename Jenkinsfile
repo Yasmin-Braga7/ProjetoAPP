@@ -44,7 +44,7 @@ pipeline {
                     // sem nunca escrever um .env em disco (evita tanto o vazamento de segredo
                     // quanto o bug das aspas que o "infisical export" gera).
                     withCredentials([string(credentialsId: 'infisical-token-prod', variable: 'INFISICAL_TOKEN')]) {
-                        bat 'npx -y @infisical/cli run --env="prod" --path="/receitix" --token="st.2ab38cc2-e5df-43d6-8b9b-54b0c4f0c447.cbbf380bf00ef8a331a339d38eddf418.8708bdcbd9440a4138f72f048a68f473" -- docker-compose up -d --build'
+                        bat 'npx -y @infisical/cli run --env="prod" --path="/receitix" --token="st.89424cef-73d0-47f5-8521-5fc8356a8b5d.06de5fa5ad43f3b9e7f8d5f0a7e61ffd.aa80ee5c62883100862865121eff1718" -- docker-compose up -d --build'
                     }
                 }
             }
