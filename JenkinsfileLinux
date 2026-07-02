@@ -4,7 +4,7 @@ pipeline {
         stage('Fetch Secrets') {
             steps {
                 // TODO: troque pelo token NOVO gerado no Infisical (o antigo foi revogado por ter sido exposto)
-                sh 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.d8a9d665-770a-45a4-8077-4c7cf7d6ded3.d6f48d4527c29d89e8665f180f229a23.fe1fdd7848cbfde93e309935d7eba271" > .env'
+                sh 'npx -y @infisical/cli export --env="prod" --path="/receitix" --token="st.2ab38cc2-e5df-43d6-8b9b-54b0c4f0c447.cbbf380bf00ef8a331a339d38eddf418.8708bdcbd9440a4138f72f048a68f473" > .env'
                 // O infisical export envolve os valores em aspas (ex: DB_URL="jdbc:mysql://...").
                 // O --env-file do docker/docker-compose NAO remove essas aspas, entao a variavel
                 // chega ao Spring com a aspa dentro do valor (por isso o erro
